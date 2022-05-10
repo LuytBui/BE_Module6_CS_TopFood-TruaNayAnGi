@@ -1,18 +1,16 @@
-package com.codegym.model;
+package com.codegym.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="orders")
-public class Order {
+public class CartDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,9 +18,9 @@ public class Order {
     @ManyToOne
     private User user;
 
-    private Date createDate;
-
     @ManyToOne
-    private Coupon coupon;
+    private Dish dish;
+
+    private int quantity;
 
 }

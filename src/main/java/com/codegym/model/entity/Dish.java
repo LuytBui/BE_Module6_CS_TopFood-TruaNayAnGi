@@ -1,4 +1,4 @@
-package com.codegym.model;
+package com.codegym.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,23 +11,25 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="users")
-public class User {
+@Table(name="dishes")
+public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    private String name;
 
-    private String email;
+    private double price;
 
-    private String password;
-
-    private String phone;
+    @ManyToMany
+    private List<Category> categories;
 
     @ManyToOne
-    private Role role;
+    private Merchant merchant;
 
-    @OneToMany
-    private List<Dish> favorite;
+    private Long sold;
+
+    private String description;
+
+    private String image;
 }
