@@ -1,5 +1,4 @@
 package com.codegym.service;
-
 import java.util.Optional;
 
 public interface IGeneralService<T> {
@@ -10,5 +9,4 @@ public interface IGeneralService<T> {
     T save(T t);
 
     void deleteById(Long id);
-
 }
