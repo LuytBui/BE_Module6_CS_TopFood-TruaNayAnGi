@@ -1,6 +1,7 @@
 package com.codegym.model.entity;
 
 import com.codegym.model.entity.User;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,15 +20,19 @@ public class MerchantRegisterRequest {
 
     @ManyToOne
     private User user;
-
+    @NotNull
     private String name;
+    @NotNull
     private String address;
+    @NotNull
     private String phone;
+    @NotNull
     private String openTime;
+    @NotNull
     private String closeTime;
-    @Column(name = "isReviewed", columnDefinition = "boolean default false")
-    private boolean isReviewed;
-    @Column(name = "isAccept", columnDefinition = "boolean default false")
-    private boolean isAccept;
+    @Column(columnDefinition = "boolean default false")
+    private boolean reviewed;
+    @Column(columnDefinition = "boolean default false")
+    private boolean accept;
 
 }

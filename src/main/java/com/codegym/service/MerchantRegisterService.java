@@ -2,6 +2,7 @@ package com.codegym.service;
 
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.MerchantRegisterRequest;
+import com.codegym.model.entity.User;
 import com.codegym.repository.IMerchantRegisterRepository;
 import com.codegym.repository.IMerchantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,4 +37,8 @@ public class MerchantRegisterService implements IMerchantRegisterService {
     }
 
 
+    @Override
+    public Optional<MerchantRegisterRequest> findByUserAndReviewed(User user, boolean reviewed) {
+        return merchantRegisterRepository.findByUserAndReviewed(user, reviewed);
+    }
 }
