@@ -32,11 +32,11 @@ public class Dish {
     @ManyToOne
     private Merchant merchant;
 
-
     private Long sold;
 
     private String description;
 
     @NotNull
     private String image;
+
 }

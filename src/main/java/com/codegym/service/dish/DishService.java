@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class DishService implements IDishService{
+public class DishService implements IDishService {
     @Autowired
     private IDishRepository dishRepository;
 
@@ -26,12 +26,17 @@ public class DishService implements IDishService{
 
     @Override
     public Optional<Dish> findById(Long id) {
-        return Optional.empty();
+        return dishRepository.findById(id);
     }
 
     @Override
     public Page<Dish> findAll(Pageable pageable) {
         return dishRepository.findAll(pageable);
+    }
+
+    @Override
+    public Iterable<Dish> findAll() {
+        return dishRepository.findAll();
     }
 
     @Override
