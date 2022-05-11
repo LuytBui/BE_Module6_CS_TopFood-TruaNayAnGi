@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -17,8 +18,12 @@ public class Dish {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "VARCHAR(100)", nullable = false) // Xử lý ở tầng Data Layer
+    @NotNull
     private String name;
 
+    @Column(nullable = false)
+    @NotNull
     private double price;
 
     @ManyToMany
@@ -27,9 +32,11 @@ public class Dish {
     @ManyToOne
     private Merchant merchant;
 
+
     private Long sold;
 
     private String description;
 
+    @NotNull
     private String image;
 }
