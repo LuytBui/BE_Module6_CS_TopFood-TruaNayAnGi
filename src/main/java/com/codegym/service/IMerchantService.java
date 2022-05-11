@@ -1,9 +1,7 @@
 package com.codegym.service;
 
 import com.codegym.model.entity.Merchant;
-import com.codegym.model.entity.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.codegym.model.entity.user.User;
 
 import java.util.Optional;
 
