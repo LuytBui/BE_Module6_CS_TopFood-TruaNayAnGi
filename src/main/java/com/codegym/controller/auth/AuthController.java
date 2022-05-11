@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,5 +55,39 @@ public class AuthController {
         user.setRole(role);
 
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user){
+//        String inputUsername = user.getUsername();
+        String inputEmail = user.getEmail();
+        String inputPassword = user.getPassword();
+//        Optional<User> findUser = userService.findByUsername(inputUsername);
+        Optional<User> findUser = userService.findByEmail(inputEmail);
+
+        if (!findUser.isPresent()) {
+            ErrorMessage errorMessage = new ErrorMessage("Tài khoản không tồn tại");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        boolean matchPassword = passwordEncoder.matches(inputPassword, findUser.get().getPassword());
+        if (!matchPassword) {
+            ErrorMessage errorMessage = new ErrorMessage("Mật khẩu không đúng");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(inputEmail, inputPassword)); // tạo đối tượng Authentication
+        SecurityContextHolder.getContext().setAuthentication(authentication);  // lưu đối tượng Authentication vào ContextHolder
+        String jwt = jwtService.generateTokenLogin(authentication);  // tạo token từ đối tượng Authentication
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User currentUser = findUser.get();
+
+        JwtResponse jwtResponse = new JwtResponse();
+        jwtResponse.setId(currentUser.getId());
+        jwtResponse.setToken(jwt);
+        jwtResponse.setUsername(userDetails.getUsername());
+        jwtResponse.setRoles(userDetails.getAuthorities());
+        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 }
