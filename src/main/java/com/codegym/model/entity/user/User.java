@@ -1,5 +1,7 @@
-package com.codegym.model.entity;
+package com.codegym.model.entity.user;
 
+import com.codegym.model.entity.Dish;
+import com.codegym.model.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
