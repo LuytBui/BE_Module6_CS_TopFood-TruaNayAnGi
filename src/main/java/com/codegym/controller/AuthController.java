@@ -2,9 +2,10 @@ package com.codegym.controller;
 
 import com.codegym.model.MerchantRegisterForm;
 import com.codegym.model.entity.ErrorMessage;
-import com.codegym.model.entity.Merchant;
+
 import com.codegym.model.entity.MerchantRegisterRequest;
-import com.codegym.model.entity.User;
+
+import com.codegym.model.entity.user.User;
 import com.codegym.service.IMerchantRegisterService;
 import com.codegym.service.IMerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +27,13 @@ public class AuthController {
 
     @PostMapping("/registerMerchant")
     public ResponseEntity<?> registerMerchant(@RequestBody MerchantRegisterForm merchantRegisterForm) {
-//        Optional<MerchantRegisterRequest> findMerchantIsReview = merchantService.findByUser(merchantRegisterForm.)
-//        if (findMerchant.isPresent()) {
-//            ErrorMessage errorMessage = new ErrorMessage("Tên cửa hàng đã tồn tại");
-//            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-//        }
+//
 
         User user = merchantRegisterForm.getUser();
 
 
         Optional<MerchantRegisterRequest> merchantRegisterRequest = merchantRegisterService.findByUserAndReviewed(user, false);
-        if (merchantRegisterRequest.isPresent()){
+        if (merchantRegisterRequest.isPresent()) {
             ErrorMessage errorMessage = new ErrorMessage();
             errorMessage.setMessage("Không thể tạo thêm yêu cầu: đã tồn tại yêu cầu đang chờ xét duyệt");
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
@@ -52,9 +49,4 @@ public class AuthController {
         merchantRegisterService.save(merchant);
         return new ResponseEntity<>(merchant, HttpStatus.CREATED);
     }
-//@GetMapping("/isReviewed")
-//public ResponseEntity<?> findByUserAndReviewed() {
-//    Optional<MerchantRegisterRequest> merchantRegisterRequests = merchantRegisterService.findByUserAndReviewed(new User(),false);
-//    return new ResponseEntity<>(merchantRegisterRequests, HttpStatus.OK);
-//}
 }

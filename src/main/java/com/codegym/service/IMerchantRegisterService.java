@@ -1,7 +1,7 @@
 package com.codegym.service;
 
 import com.codegym.model.entity.MerchantRegisterRequest;
-import com.codegym.model.entity.User;
+import com.codegym.model.entity.user.User;
 
 import java.util.Optional;
 

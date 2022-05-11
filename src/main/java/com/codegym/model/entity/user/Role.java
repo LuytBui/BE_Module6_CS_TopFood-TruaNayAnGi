@@ -1,4 +1,4 @@
-package com.codegym.model.entity;
+package com.codegym.model.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

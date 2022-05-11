@@ -1,13 +1,12 @@
 package com.codegym.model.entity;
 
-import com.codegym.model.entity.User;
+import com.codegym.model.entity.user.User;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Time;
 
 @Entity
 @Data
