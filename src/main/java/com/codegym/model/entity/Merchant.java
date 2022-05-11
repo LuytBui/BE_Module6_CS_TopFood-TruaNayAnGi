@@ -1,5 +1,6 @@
 package com.codegym.model.entity;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="merchants")
+@Table(name = "merchants")
 public class Merchant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +34,7 @@ public class Merchant {
 
     // anh chup chung nhan Ve sinh an toan thuc pham
     private String vsattp;
+
+    @Column(name = "isActive", columnDefinition = "boolean default true")
+    private boolean isActive;
 }
