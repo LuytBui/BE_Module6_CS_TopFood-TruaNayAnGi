@@ -1,8 +1,11 @@
 package com.codegym.service.user;
 
+import com.codegym.model.entity.auth.UserPrincipal;
 import com.codegym.model.entity.user.User;
 import com.codegym.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,5 +33,18 @@ public class UserService implements IUserService{
     @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (!user.isPresent())
+            throw new UsernameNotFoundException("Tài khoản không tồn tại");
+        return UserPrincipal.build(user.get());
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return Optional.empty();
     }
 }
