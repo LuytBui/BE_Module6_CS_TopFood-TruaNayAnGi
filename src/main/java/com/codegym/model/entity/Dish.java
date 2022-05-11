@@ -3,6 +3,7 @@ package com.codegym.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,6 +33,7 @@ public class Dish {
     @ManyToOne
     private Merchant merchant;
 
+    @ColumnDefault(value = "0")
     private Long sold;
 
     private String description;

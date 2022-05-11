@@ -59,7 +59,7 @@ public class DishController {
         return new ResponseEntity<>(dishOptional.get(), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<Dish> saveDish(@ModelAttribute DishForm dishForm) {
         MultipartFile img = dishForm.getImage();
         if (img != null && img.getSize() != 0) {
@@ -73,6 +73,7 @@ public class DishController {
             }
             Dish dish = new Dish();
             dish.setId(dishForm.getId());
+            dish.setName(dishForm.getName());
             dish.setCategories(dishForm.getCategories());
             dish.setPrice(dishForm.getPrice());
             dish.setMerchant(dishForm.getMerchant());
