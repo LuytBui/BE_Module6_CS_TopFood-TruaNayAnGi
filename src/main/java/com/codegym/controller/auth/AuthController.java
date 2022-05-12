@@ -60,11 +60,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user){
-        String inputUsername = user.getUsername();
-//        String inputEmail = user.getEmail();
+//        String inputUsername = user.getUsername();
+        String inputEmail = user.getEmail();
         String inputPassword = user.getPassword();
-        Optional<User> findUser = userService.findByUsername(inputUsername);
-//        Optional<User> findUser = userService.findByEmail(inputEmail);
+//        Optional<User> findUser = userService.findByUsername(inputUsername);
+        Optional<User> findUser = userService.findByEmail(inputEmail);
 
         if (!findUser.isPresent()) {
             ErrorMessage errorMessage = new ErrorMessage("Tài khoản không tồn tại");
@@ -78,7 +78,7 @@ public class AuthController {
         }
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(inputUsername, inputPassword)); // tạo đối tượng Authentication
+                new UsernamePasswordAuthenticationToken(findUser.get().getUsername(), inputPassword)); // tạo đối tượng Authentication
         SecurityContextHolder.getContext().setAuthentication(authentication);  // lưu đối tượng Authentication vào ContextHolder
         String jwt = jwtService.generateTokenLogin(authentication);  // tạo token từ đối tượng Authentication
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
