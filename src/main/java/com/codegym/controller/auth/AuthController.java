@@ -1,5 +1,6 @@
 package com.codegym.controller.auth;
 
+import com.codegym.model.entity.auth.JwtResponse;
 import com.codegym.model.entity.user.Role;
 import com.codegym.model.entity.auth.ErrorMessage;
 import com.codegym.model.entity.auth.UserRegisterForm;
