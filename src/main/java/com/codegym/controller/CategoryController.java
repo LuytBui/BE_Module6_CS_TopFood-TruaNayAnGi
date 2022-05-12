@@ -1,6 +1,7 @@
 package com.codegym.controller;
 
-import com.codegym.model.entity.Category;
+import com.codegym.model.entity.category.Category;
+import com.codegym.model.entity.category.CategoryDTO;
 import com.codegym.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<?> findAllCategories(){
-        Iterable<Category> categories = categoryService.findAll();
-        return new ResponseEntity<>(categories, HttpStatus.OK);
+        Iterable<CategoryDTO> categoryDTOs = categoryService.getAllCategoryDTO();
+        return new ResponseEntity<>(categoryDTOs, HttpStatus.OK);
     }
 }

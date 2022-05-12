@@ -1,5 +1,6 @@
 package com.codegym.controller.dish;
 
+import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.model.entity.dish.DishForm;
 import com.codegym.service.dish.IDishService;
@@ -110,5 +111,12 @@ public class DishController {
             return new ResponseEntity<>(dishService.save(oldDish), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/most-purchased/{top}")
+    public ResponseEntity<?> getMostPurchasedDishes(@PathVariable Long top){
+        if (top == null) top = 8L;
+        Iterable<Dish> dishes = dishService.findMostPurchased(top.intValue());
+        return new ResponseEntity<>(dishes, HttpStatus.OK);
     }
 }
