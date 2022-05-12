@@ -41,6 +41,7 @@ public class Dish {
     private String description;
 
     @NotNull
+    @Column(columnDefinition = "varchar(1000) default 'dish-default.jpg'")
     private String image;
 
 }
