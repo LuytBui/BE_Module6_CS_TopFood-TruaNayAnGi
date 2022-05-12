@@ -28,6 +28,16 @@ public class MerchantController {
         if (!merchantOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(merchantOptional.get(),HttpStatus.OK);
+        return new ResponseEntity<>(merchantOptional.get(), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Merchant> updateMerchant(@PathVariable Long id, @RequestBody Merchant newMerchant) {
+        Optional<Merchant> merchantOptional = merchantService.findById(id);
+        if (!merchantOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        newMerchant.setId(id);
+        return new ResponseEntity<>(merchantService.save(newMerchant),HttpStatus.OK);
     }
 }
