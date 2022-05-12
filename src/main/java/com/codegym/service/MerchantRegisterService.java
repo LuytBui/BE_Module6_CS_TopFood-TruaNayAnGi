@@ -1,10 +1,8 @@
 package com.codegym.service;
 
-import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.MerchantRegisterRequest;
-import com.codegym.model.entity.User;
+import com.codegym.model.entity.user.User;
 import com.codegym.repository.IMerchantRegisterRepository;
-import com.codegym.repository.IMerchantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
