@@ -1,8 +1,7 @@
 package com.codegym.model.entity;
 
-
 import com.codegym.model.entity.user.User;
-
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,32 +10,28 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "merchants")
-public class Merchant {
+@NoArgsConstructor
+public class MerchantRegisterRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private User user;
-
+    @NotNull
     private String name;
-
+    @NotNull
     private String address;
-
+    @NotNull
     private String phone;
-
-    @Column(columnDefinition = "TIME")
+    @NotNull
     private String openTime;
-
-    @Column(columnDefinition = "TIME")
+    @NotNull
     private String closeTime;
+    @Column(columnDefinition = "boolean default false")
+    private boolean reviewed;
+    @Column(columnDefinition = "boolean default false")
+    private boolean accept;
 
-    // anh chup chung nhan Ve sinh an toan thuc pham
-    private String vsattp;
-
-    @Column(name = "isActive", columnDefinition = "boolean default true")
-    private boolean isActive;
 }
