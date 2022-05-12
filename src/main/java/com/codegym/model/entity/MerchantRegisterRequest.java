@@ -22,12 +22,12 @@ public class MerchantRegisterRequest {
     @NotNull
     private String name;
     @NotNull
+    private String description;
+    @NotNull
     private String address;
     @NotNull
     private String phone;
-    @NotNull
     private String openTime;
-    @NotNull
     private String closeTime;
     @Column(columnDefinition = "boolean default false")
     private boolean reviewed;

@@ -1,4 +1,4 @@
-package com.codegym.controller.auth;
+package com.codegym.model.entity.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

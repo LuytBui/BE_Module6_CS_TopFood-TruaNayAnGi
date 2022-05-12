@@ -7,7 +7,6 @@ import com.codegym.model.entity.MerchantRegisterRequest;
 
 import com.codegym.model.entity.user.User;
 import com.codegym.service.IMerchantRegisterService;
-import com.codegym.service.IMerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +18,10 @@ import java.util.Optional;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api")
-public class AuthController {
+public class RegisterMerchantController {
     @Autowired
     IMerchantRegisterService merchantRegisterService;
-    @Autowired
-    IMerchantService merchantService;
+
 
     @PostMapping("/registerMerchant")
     public ResponseEntity<?> registerMerchant(@RequestBody MerchantRegisterForm merchantRegisterForm) {
@@ -42,6 +40,7 @@ public class AuthController {
         MerchantRegisterRequest merchant = new MerchantRegisterRequest();
         merchant.setUser(merchantRegisterForm.getUser());
         merchant.setName(merchantRegisterForm.getName());
+        merchant.setDescription(merchantRegisterForm.getDescription());
         merchant.setAddress(merchantRegisterForm.getAddress());
         merchant.setPhone(merchantRegisterForm.getPhone());
         merchant.setOpenTime(merchantRegisterForm.getOpenTime());

@@ -1,5 +1,6 @@
 package com.codegym.model.entity;
 
+import com.codegym.model.entity.dish.Dish;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
