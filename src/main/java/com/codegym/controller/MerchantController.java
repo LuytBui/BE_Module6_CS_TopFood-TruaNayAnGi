@@ -11,15 +11,23 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/merchants")
+@RequestMapping("/api/merchants")
 public class MerchantController {
     @Autowired
     private IMerchantService merchantService;
 
     @GetMapping
-    public ResponseEntity<Iterable<Merchant>> findAllMerchant(@RequestParam(name="q") Optional<String> q) {
-        Iterable<Merchant> merchants=merchantService.findAll();
-
+    public ResponseEntity<Iterable<Merchant>> findAllMerchant() {
+        Iterable<Merchant> merchants = merchantService.findAll();
         return new ResponseEntity<>(merchants, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Merchant> findById(@PathVariable Long id) {
+        Optional<Merchant> merchantOptional = merchantService.findById(id);
+        if (!merchantOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(merchantOptional.get(),HttpStatus.OK);
     }
 }

@@ -1,6 +1,6 @@
 package com.codegym.service.dish;
 
-import com.codegym.model.entity.Dish;
+import com.codegym.model.entity.dish.Dish;
 import com.codegym.repository.dish.IDishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

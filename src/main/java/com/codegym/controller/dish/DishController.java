@@ -1,7 +1,7 @@
-package com.codegym.controller;
+package com.codegym.controller.dish;
 
-import com.codegym.model.entity.Dish;
-import com.codegym.model.entity.DishForm;
+import com.codegym.model.entity.dish.Dish;
+import com.codegym.model.entity.dish.DishForm;
 import com.codegym.service.dish.IDishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,16 +50,16 @@ public class DishController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Dish> deleteDish(@PathVariable Long id) {
+    public ResponseEntity<?> deleteDish(@PathVariable Long id) {
         Optional<Dish> dishOptional = dishService.findById(id);
         if (!dishOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         dishService.deleteById(id);
-        return new ResponseEntity<>(dishOptional.get(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Dish> saveDish(@ModelAttribute DishForm dishForm) {
         MultipartFile img = dishForm.getImage();
         if (img != null && img.getSize() != 0) {
@@ -84,8 +84,8 @@ public class DishController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     
-    @PostMapping("/{id}")
-    public ResponseEntity<Dish> updateDish(@PathVariable Long id, @ModelAttribute DishForm dishForm) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateDish(@PathVariable Long id, @ModelAttribute DishForm dishForm) {
         Optional<Dish> dishOptional = dishService.findById(id);
         MultipartFile img = dishForm.getImage();
         if (dishOptional.isPresent()) {
