@@ -1,5 +1,6 @@
 package com.codegym.service.dish;
 
+import com.codegym.model.entity.category.Category;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.repository.dish.IDishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,15 @@ public class DishService implements IDishService {
     @Override
     public Page<Dish> findAllByNameContaining(String name, Pageable pageable) {
         return dishRepository.findAllByNameContaining(name, pageable);
+    }
+
+    @Override
+    public int countDishByCategoriesIsContaining(Category category) {
+        return dishRepository.countDishByCategoriesIsContaining(category);
+    }
+
+    @Override
+    public Iterable<Dish> findMostPurchased(int top) {
+        return dishRepository.findTopPurchased(top);
     }
 }

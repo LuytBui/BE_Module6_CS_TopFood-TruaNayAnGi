@@ -1,6 +1,6 @@
 package com.codegym.model.entity.dish;
 
-import com.codegym.model.entity.Category;
+import com.codegym.model.entity.category.Category;
 import com.codegym.model.entity.Merchant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
