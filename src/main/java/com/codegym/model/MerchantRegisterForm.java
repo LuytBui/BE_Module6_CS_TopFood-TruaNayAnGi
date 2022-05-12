@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class MerchantRegisterForm {
     private User user;
     private String name;
+    private String description;
     private String address;
     private String phone;
     private String openTime;

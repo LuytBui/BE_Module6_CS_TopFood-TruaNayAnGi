@@ -1,7 +1,7 @@
-package com.codegym.controller;
+package com.codegym.controller.dish;
 
-import com.codegym.model.entity.Dish;
-import com.codegym.model.entity.DishForm;
+import com.codegym.model.entity.dish.Dish;
+import com.codegym.model.entity.dish.DishForm;
 import com.codegym.service.dish.IDishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
