@@ -33,6 +33,8 @@ public class User {
     @Pattern(regexp = "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)$")
     private String phone;
 
+    private String image;
+
     @ManyToOne
     private Role role;
 
