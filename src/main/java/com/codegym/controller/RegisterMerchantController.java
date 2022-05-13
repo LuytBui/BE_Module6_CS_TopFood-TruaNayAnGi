@@ -17,13 +17,13 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api")
+@RequestMapping("/api/registerMerchant")
 public class RegisterMerchantController {
     @Autowired
     IMerchantRegisterService merchantRegisterService;
 
 
-    @PostMapping("/registerMerchant")
+    @PostMapping
     public ResponseEntity<?> registerMerchant(@RequestBody MerchantRegisterForm merchantRegisterForm) {
 //
 
@@ -46,5 +46,11 @@ public class RegisterMerchantController {
         merchant.setCloseTime(merchantRegisterForm.getCloseTime());
         merchant = merchantRegisterService.save(merchant);
         return new ResponseEntity<>(merchant, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<Iterable<MerchantRegisterRequest>> findAllMerchantRegisterRequest(){
+        Iterable<MerchantRegisterRequest> merchantRegisterRequests = merchantRegisterService.findAll();
+        return new ResponseEntity<>(merchantRegisterRequests,HttpStatus.OK);
     }
 }
