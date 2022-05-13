@@ -9,6 +9,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> {
 //    Page<Dish> findAll(Pageable pageable);
@@ -19,4 +21,6 @@ public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> 
 
     @Query(value = "select * from dishes d order by d.sold desc limit :top offset 0", nativeQuery = true)
     Iterable<Dish> findTopPurchased(@Param("top") int top);
+
+    Iterable<Dish> findAllByCategoriesContaining(Category category);
 }
