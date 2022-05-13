@@ -45,7 +45,7 @@ public class RegisterMerchantController {
         merchant.setPhone(merchantRegisterForm.getPhone());
         merchant.setOpenTime(merchantRegisterForm.getOpenTime());
         merchant.setCloseTime(merchantRegisterForm.getCloseTime());
-        merchantRegisterService.save(merchant);
+        merchant = merchantRegisterService.save(merchant);
         return new ResponseEntity<>(merchant, HttpStatus.CREATED);
     }
 
