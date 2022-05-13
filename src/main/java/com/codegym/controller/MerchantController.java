@@ -3,6 +3,8 @@ package com.codegym.controller;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.service.dish.IDishService;
+import com.codegym.model.entity.MerchantRegisterRequest;
+import com.codegym.service.IMerchantRegisterService;
 import com.codegym.service.merchant.IMerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +43,7 @@ public class MerchantController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         newMerchant.setId(id);
-        return new ResponseEntity<>(merchantService.save(newMerchant),HttpStatus.OK);
+        return new ResponseEntity<>(merchantService.save(newMerchant), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/dishes")

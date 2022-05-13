@@ -4,6 +4,7 @@ import com.codegym.model.entity.dish.Dish;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
@@ -30,6 +31,8 @@ public class UserInfoForm {
 
     @Pattern(regexp = "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)$")
     private String phone;
+
+    private MultipartFile image;
 
     private Role role;
 
