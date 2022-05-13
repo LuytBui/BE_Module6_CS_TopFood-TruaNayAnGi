@@ -24,6 +24,8 @@ public class Merchant {
 
     private String name;
 
+    private String description;
+
     private String address;
 
     private String phone;
