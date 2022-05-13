@@ -19,4 +19,6 @@ public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> 
 
     @Query(value = "select * from dishes d order by d.sold desc limit :top offset 0", nativeQuery = true)
     Iterable<Dish> findTopPurchased(@Param("top") int top);
+
+    Iterable<Dish> findAllByMerchantId(Long id);
 }

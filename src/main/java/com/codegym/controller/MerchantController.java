@@ -1,6 +1,8 @@
 package com.codegym.controller;
 
 import com.codegym.model.entity.Merchant;
+import com.codegym.model.entity.dish.Dish;
+import com.codegym.service.dish.IDishService;
 import com.codegym.service.merchant.IMerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class MerchantController {
     @Autowired
     private IMerchantService merchantService;
+    private IDishService dishService;
 
     @GetMapping
     public ResponseEntity<Iterable<Merchant>> findAllMerchant() {
@@ -39,5 +42,11 @@ public class MerchantController {
         }
         newMerchant.setId(id);
         return new ResponseEntity<>(merchantService.save(newMerchant),HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/dishes")
+    public ResponseEntity<Iterable<Dish>> findAllMerchantDishes(@PathVariable Long id) {
+        Iterable<Dish> dishes = dishService.findAllByMerchantId(id);
+        return new ResponseEntity<>(dishes, HttpStatus.OK);
     }
 }
