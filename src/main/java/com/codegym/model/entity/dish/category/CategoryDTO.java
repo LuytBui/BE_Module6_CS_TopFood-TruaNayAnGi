@@ -1,4 +1,4 @@
-package com.codegym.model.entity.category;
+package com.codegym.model.entity.dish.category;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

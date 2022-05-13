@@ -36,7 +36,6 @@ public class RegisterMerchantController {
             errorMessage.setMessage("Không thể tạo thêm yêu cầu: đã tồn tại yêu cầu đang chờ xét duyệt");
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
-
         MerchantRegisterRequest merchant = new MerchantRegisterRequest();
         merchant.setUser(merchantRegisterForm.getUser());
         merchant.setName(merchantRegisterForm.getName());
@@ -45,7 +44,7 @@ public class RegisterMerchantController {
         merchant.setPhone(merchantRegisterForm.getPhone());
         merchant.setOpenTime(merchantRegisterForm.getOpenTime());
         merchant.setCloseTime(merchantRegisterForm.getCloseTime());
-        merchantRegisterService.save(merchant);
+        merchant = merchantRegisterService.save(merchant);
         return new ResponseEntity<>(merchant, HttpStatus.CREATED);
     }
 }

@@ -1,12 +1,15 @@
 package com.codegym.model.entity;
 
 import com.codegym.model.entity.user.User;
+
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Data
@@ -19,13 +22,18 @@ public class MerchantRegisterRequest {
 
     @ManyToOne
     private User user;
-    @NotNull
+    @Column(nullable = false)
+    @NotBlank(message = "Vui lòng nhập tên cửa hàng của bạn")
     private String name;
-    @NotNull
+    @Column(nullable = false)
+    @NotBlank(message = "Vui lòng nhập mô tả cửa hàng của bạn")
     private String description;
-    @NotNull
+    @Column(nullable = false)
+    @NotBlank(message = "Vui lòng nhập địa chỉ của bạn")
     private String address;
-    @NotNull
+    @Column(nullable = false)
+    @NotBlank(message = "Vui lòng nhập số điện thoại của bạn")
+    @Pattern(regexp = "[0-9]{10,11}")
     private String phone;
     private String openTime;
     private String closeTime;
