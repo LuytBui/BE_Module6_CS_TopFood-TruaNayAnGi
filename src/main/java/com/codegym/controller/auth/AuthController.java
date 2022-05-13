@@ -44,7 +44,12 @@ public class AuthController {
         }
         Optional<User> findUser = userService.findByUsername(userRegisterForm.getUsername());
         if (findUser.isPresent()) {
-            ErrorMessage errorMessage = new ErrorMessage("Tài khoản đã tồn tại!");
+            ErrorMessage errorMessage = new ErrorMessage("Tên đăng nhập đã tồn tại!");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+        Optional<User> findUserByEmail = userService.findByEmail(userRegisterForm.getEmail());
+        if (findUserByEmail.isPresent()) {
+            ErrorMessage errorMessage = new ErrorMessage("Địa chỉ email đã tồn tại!");
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
         User user = new User();
@@ -89,6 +94,7 @@ public class AuthController {
         jwtResponse.setToken(jwt);
         jwtResponse.setUsername(userDetails.getUsername());
         jwtResponse.setRoles(userDetails.getAuthorities());
+        jwtResponse.setEmail(inputEmail);
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 }

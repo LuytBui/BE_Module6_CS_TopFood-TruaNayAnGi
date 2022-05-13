@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity
@@ -18,12 +19,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Không được để trống")
+    @Column(unique = true)
     private String username;
 
+    @Email
+    @Column(unique = true)
+    @NotBlank(message = "Không được để trống")
     private String email;
-
+    @NotEmpty(message = "Không được để trống")
+    @Size(min = 6)
     private String password;
-
+    @Pattern(regexp = "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)$")
     private String phone;
 
     @ManyToOne
