@@ -86,12 +86,12 @@ public class CartController {
         return new ResponseEntity<>(cartDto, HttpStatus.OK);
     }
 
-    @PostMapping("/increase-dish-quantity/{dishId}")
+    @GetMapping("/increase-dish-quantity/{dishId}")
     public ResponseEntity<?> increaseDishQuantityInCart(@PathVariable Long dishId){
         return changeDishQuantity(dishId, 1);
     }
 
-    @PostMapping("/decrease-dish-quantity/{dishId}")
+    @GetMapping("/decrease-dish-quantity/{dishId}")
     public ResponseEntity<?> decreaseDishQuantityInCart(@PathVariable Long dishId){
         return changeDishQuantity(dishId, -1);
     }
