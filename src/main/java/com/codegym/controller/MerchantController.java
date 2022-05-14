@@ -19,6 +19,7 @@ import java.util.Optional;
 public class MerchantController {
     @Autowired
     private IMerchantService merchantService;
+    @Autowired
     private IDishService dishService;
 
     @GetMapping

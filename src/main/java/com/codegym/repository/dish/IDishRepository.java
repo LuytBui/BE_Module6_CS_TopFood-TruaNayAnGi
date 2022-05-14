@@ -1,5 +1,6 @@
 package com.codegym.repository.dish;
 
+import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.category.Category;
 import com.codegym.model.entity.dish.Dish;
 import org.springframework.data.domain.Page;
