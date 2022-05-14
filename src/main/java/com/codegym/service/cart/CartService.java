@@ -66,7 +66,7 @@ public class CartService{
                     boolean sameDish = cartDetail.getDish().getId().equals(dish.getId());
                     if (sameDish) {
                         int oldQuantity = cartDetail.getQuantity();
-                        cartDetail.setQuantity();
+                        cartDetail.setQuantity(oldQuantity + quantity);
                     }
                 }
         );
