@@ -10,6 +10,9 @@ import com.codegym.repository.ICartDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CartService{
     @Autowired
@@ -61,22 +64,28 @@ public class CartService{
 
         // Nếu trong giỏ đã có dish này thì tăng số lượng
         Iterable<CartDetail> cartDetails = cartDetailRepository.findAllByUser(user);
-        cartDetails.forEach(
-                cartDetail -> {
-                    boolean sameDish = cartDetail.getDish().getId().equals(dish.getId());
-                    if (sameDish) {
-                        int oldQuantity = cartDetail.getQuantity();
-                        cartDetail.setQuantity(oldQuantity + quantity);
-                    }
-                }
-        );
+        List<CartDetail> listCartDetails = new ArrayList<>();
+        cartDetails.forEach(listCartDetails::add); // chuyển iterable sang array list
+
+        boolean sameDish = false;
+        for (CartDetail cartDetail: listCartDetails) {
+            sameDish = cartDetail.getDish().getId().equals(dish.getId());
+            if (sameDish) {
+                int oldQuantity = cartDetail.getQuantity();
+                cartDetail.setQuantity(oldQuantity + quantity);
+                cartDetailRepository.save(cartDetail);
+                break;
+            }
+        }
 
         // Tạo đối tượng CartDetail mới và lưu vào DB
-        CartDetail cartDetail = new CartDetail();
-        cartDetail.setUser(user);
-        cartDetail.setDish(dish);
-        cartDetail.setQuantity(quantity);
-        cartDetailRepository.save(cartDetail);
+        if (!sameDish) {
+            CartDetail cartDetail = new CartDetail();
+            cartDetail.setUser(user);
+            cartDetail.setDish(dish);
+            cartDetail.setQuantity(quantity);
+            cartDetailRepository.save(cartDetail);
+        }
 
         // Lấy thông tin cart từ DB để trả về
         return getUserCartDto(user);
