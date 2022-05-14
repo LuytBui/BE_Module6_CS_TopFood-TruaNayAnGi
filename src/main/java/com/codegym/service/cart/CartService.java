@@ -107,10 +107,4 @@ public class CartService{
         return getUserCartDto(user);
     }
 
-    public CartDto increaseDishQuantity(User user, Dish dish) {
-        return changeDishQuantity(user, dish, 1);
-    }
-    public CartDto decreaseDishQuantity(User user, Dish dish) {
-        return changeDishQuantity(user, dish, -1);
-    }
 }
