@@ -59,9 +59,9 @@ public class RegisterMerchantController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<MerchantRegisterRequest>> findAllMerchantRegisterRequest() {
-        Iterable<MerchantRegisterRequest> merchantRegisterRequests = merchantRegisterService.findAll();
-        return new ResponseEntity<>(merchantRegisterRequests, HttpStatus.OK);
+    public ResponseEntity<?> findAllMerchantRegisterRequest() {
+        Iterable<MerchantRegisterRequest> merchantRegisterRequest=merchantRegisterService.findMerchantByReviewed(false);
+        return new ResponseEntity<>(merchantRegisterRequest, HttpStatus.OK);
     }
 
     @PostMapping("/accept/{id}")
@@ -112,4 +112,5 @@ public class RegisterMerchantController {
         merchantRegisterService.save(mrr);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
