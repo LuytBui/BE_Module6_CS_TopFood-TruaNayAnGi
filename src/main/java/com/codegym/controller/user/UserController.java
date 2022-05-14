@@ -43,18 +43,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         User updateUser = updateUserOptional.get();
-        Optional<User> findUser = userService.findByUsername(userInfoForm.getUsername());
-        Optional<User> findUserByEmail = userService.findByEmail(userInfoForm.getEmail());
-        if (findUserByEmail.isPresent()) {
-            ErrorMessage errorMessage = new ErrorMessage("Địa chỉ email đã tồn tại!");
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        }
-
-        if (findUser.isPresent()) {
-            ErrorMessage errorMessage = new ErrorMessage("Tên đăng nhập đã tồn tại!");
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        }
-
         updateUser.setUsername(userInfoForm.getUsername());
         updateUser.setEmail(userInfoForm.getEmail());
         updateUser.setPhone(userInfoForm.getPhone());
