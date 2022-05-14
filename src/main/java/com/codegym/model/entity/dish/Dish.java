@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="dishes")
+@Table(name = "dishes")
 public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,12 +35,13 @@ public class Dish {
     @ManyToOne
     private Merchant merchant;
 
-    @ColumnDefault(value = "0")
     private Long sold;
 
+    @Column(columnDefinition = "varchar(1000)")
     private String description;
 
     @NotNull
+    @Column(columnDefinition = "varchar(1000) default 'dish-default.jpg'")
     private String image;
 
 }
