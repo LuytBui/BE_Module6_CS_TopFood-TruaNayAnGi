@@ -39,4 +39,12 @@ public class MerchantRegisterService implements IMerchantRegisterService {
     public Optional<MerchantRegisterRequest> findByUserAndReviewed(User user, boolean reviewed) {
         return merchantRegisterRepository.findByUserAndReviewed(user, reviewed);
     }
+
+
+    @Override
+    public Iterable<MerchantRegisterRequest> findMerchantByReviewed(boolean reviewed) {
+        return merchantRegisterRepository.findMerchantByReviewed(reviewed);
+    }
+
+
 }
