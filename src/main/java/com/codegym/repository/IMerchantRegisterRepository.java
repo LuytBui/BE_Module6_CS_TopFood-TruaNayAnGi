@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface IMerchantRegisterRepository extends JpaRepository<MerchantRegisterRequest, Long> {
 //    Optional<MerchantRegisterRequest> findByUserAndReviewedNot(User user);
     Optional<MerchantRegisterRequest> findByUserAndReviewed(User user, boolean reviewed);
+
+    Iterable<MerchantRegisterRequest> findMerchantByReviewed(boolean reviewed);
 }
