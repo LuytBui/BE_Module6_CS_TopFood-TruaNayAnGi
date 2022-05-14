@@ -1,5 +1,6 @@
 package com.codegym.model.dto.cart;
 
+import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +16,11 @@ public class CartDto {
     private User user;
     private List<CartDetailDto> cartDetails = new ArrayList<>();
     private double total = 0;
+    private Merchant merchant;
 
     public void addCartDetailDto(CartDetailDto cartDetailDto){
         this.cartDetails.add(cartDetailDto);
         total += cartDetailDto.getQuantity() * cartDetailDto.getDish().getPrice();
+        this.merchant = cartDetailDto.getDish().getMerchant();
     }
 }

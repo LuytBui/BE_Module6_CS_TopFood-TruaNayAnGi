@@ -90,4 +90,27 @@ public class CartService{
         // Lấy thông tin cart từ DB để trả về
         return getUserCartDto(user);
     }
+
+    public CartDto changeDishQuantity(User user, Dish dish, int amount){
+        CartDto cartDto = getUserCartDto(user);
+
+        CartDetail cartDetail = cartDetailRepository.findByUserAndAndDish(user, dish);
+        if (cartDetail == null) return cartDto;
+
+        // Lưu vào DB, nếu số lượng giảm về 0, xóa record trong DB
+        cartDetail.setQuantity(cartDetail.getQuantity() + amount);
+        cartDetailRepository.save(cartDetail);
+        if (cartDetail.getQuantity() < 1) {
+            cartDetailRepository.delete(cartDetail);
+        }
+
+        return getUserCartDto(user);
+    }
+
+    public CartDto increaseDishQuantity(User user, Dish dish) {
+        return changeDishQuantity(user, dish, 1);
+    }
+    public CartDto decreaseDishQuantity(User user, Dish dish) {
+        return changeDishQuantity(user, dish, -1);
+    }
 }
