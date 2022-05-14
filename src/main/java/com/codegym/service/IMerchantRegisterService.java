@@ -6,5 +6,8 @@ import com.codegym.model.entity.user.User;
 import java.util.Optional;
 
 public interface IMerchantRegisterService extends IGeneralService<MerchantRegisterRequest> {
-Optional<MerchantRegisterRequest> findByUserAndReviewed(User user, boolean reviewed);
+    Optional<MerchantRegisterRequest> findByUserAndReviewed(User user, boolean reviewed);
+
+
+    Iterable<MerchantRegisterRequest> findMerchantByReviewed(boolean reviewed);
 }
