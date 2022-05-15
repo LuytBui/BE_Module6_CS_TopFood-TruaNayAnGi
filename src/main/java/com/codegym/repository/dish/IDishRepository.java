@@ -25,5 +25,5 @@ public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> 
 
     Iterable<Dish> findAllByCategoriesContaining(Category category);
 
-    Iterable<Dish> findAllByMerchantId(Long id);
+    Iterable<Dish> findAllByMerchant(Merchant merchant);
 }

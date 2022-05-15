@@ -1,10 +1,9 @@
 package com.codegym.controller;
 
+import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.service.dish.IDishService;
-import com.codegym.model.entity.MerchantRegisterRequest;
-import com.codegym.service.IMerchantRegisterService;
 import com.codegym.service.merchant.IMerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,9 +46,20 @@ public class MerchantController {
         return new ResponseEntity<>(merchantService.save(newMerchant), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/dishes")
-    public ResponseEntity<Iterable<Dish>> findAllMerchantDishes(@PathVariable Long id) {
-        Iterable<Dish> dishes = dishService.findAllByMerchantId(id);
+//    @GetMapping("/{id}/dishes")
+//    public ResponseEntity<Iterable<Dish>> findAllMerchantDishes(@PathVariable Long id) {
+//        Iterable<Dish> dishes = dishService.findAllByMerchantId(id);
+//        return new ResponseEntity<>(dishes, HttpStatus.OK);
+//    }
+
+    @GetMapping("/user/{userId}/merchant/dishes")
+    public ResponseEntity<?> findMerchantByUserId(@PathVariable Long userId) {
+        Optional<Merchant> merchantOptional = merchantService.findMerchantByUserId(userId);
+        if (!merchantOptional.isPresent()) {
+            ErrorMessage errorMessage = new ErrorMessage("Cửa hàng không tồn tại");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+        Iterable<Dish> dishes = dishService.findAllByMerchant(merchantOptional.get());
         return new ResponseEntity<>(dishes, HttpStatus.OK);
     }
 }

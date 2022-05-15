@@ -1,8 +1,10 @@
 package com.codegym.controller.user;
 
+import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.auth.ErrorMessage;
 import com.codegym.model.entity.user.User;
 import com.codegym.model.entity.user.UserInfoForm;
+import com.codegym.service.merchant.IMerchantService;
 import com.codegym.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +26,9 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IMerchantService merchantService;
 
     @Value("${file-upload}")
     private String uploadPath;
