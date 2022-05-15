@@ -44,12 +44,19 @@ public class AuthController {
         }
         Optional<User> findUser = userService.findByUsername(userRegisterForm.getUsername());
         if (findUser.isPresent()) {
-            ErrorMessage errorMessage = new ErrorMessage("Tài khoản đã tồn tại!");
+            ErrorMessage errorMessage = new ErrorMessage("Tên đăng nhập đã tồn tại!");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+        Optional<User> findUserByEmail = userService.findByEmail(userRegisterForm.getEmail());
+        if (findUserByEmail.isPresent()) {
+            ErrorMessage errorMessage = new ErrorMessage("Địa chỉ email đã tồn tại!");
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
         User user = new User();
         user.setEmail(userRegisterForm.getEmail());
         user.setUsername(userRegisterForm.getUsername());
+        user.setFullName(userRegisterForm.getFullName());
+        user.setAddress(userRegisterForm.getAddress());
         String encodedPassword = passwordEncoder.encode(userRegisterForm.getPassword());
         user.setPassword(encodedPassword);
         Role role = new Role(3L, Role.ROLE_CUSTOMER);
@@ -60,11 +67,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user){
-        String inputUsername = user.getUsername();
-//        String inputEmail = user.getEmail();
+//        String inputUsername = user.getUsername();
+        String inputEmail = user.getEmail();
         String inputPassword = user.getPassword();
-        Optional<User> findUser = userService.findByUsername(inputUsername);
-//        Optional<User> findUser = userService.findByEmail(inputEmail);
+//        Optional<User> findUser = userService.findByUsername(inputUsername);
+        Optional<User> findUser = userService.findByEmail(inputEmail);
 
         if (!findUser.isPresent()) {
             ErrorMessage errorMessage = new ErrorMessage("Tài khoản không tồn tại");
@@ -78,7 +85,7 @@ public class AuthController {
         }
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(inputUsername, inputPassword)); // tạo đối tượng Authentication
+                new UsernamePasswordAuthenticationToken(findUser.get().getUsername(), inputPassword)); // tạo đối tượng Authentication
         SecurityContextHolder.getContext().setAuthentication(authentication);  // lưu đối tượng Authentication vào ContextHolder
         String jwt = jwtService.generateTokenLogin(authentication);  // tạo token từ đối tượng Authentication
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -89,6 +96,7 @@ public class AuthController {
         jwtResponse.setToken(jwt);
         jwtResponse.setUsername(userDetails.getUsername());
         jwtResponse.setRoles(userDetails.getAuthorities());
+        jwtResponse.setEmail(inputEmail);
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 }

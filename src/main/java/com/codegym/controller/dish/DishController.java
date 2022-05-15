@@ -1,6 +1,5 @@
 package com.codegym.controller.dish;
 
-import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.model.entity.dish.DishForm;
 import com.codegym.service.dish.IDishService;
