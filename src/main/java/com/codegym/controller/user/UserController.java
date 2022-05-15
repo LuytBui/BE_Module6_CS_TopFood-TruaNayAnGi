@@ -10,14 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.Principal;
 import java.util.Optional;
 
 @RestController
@@ -44,7 +42,7 @@ public class UserController {
     @PostMapping("/{id}")
     public ResponseEntity<?> updateProfile(@PathVariable Long id, @ModelAttribute UserInfoForm userInfoForm) {
         Optional<User> updateUserOptional = userService.findById(id);
-        if (!updateUserOptional.isPresent()){
+        if (!updateUserOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         User updateUser = updateUserOptional.get();
@@ -67,5 +65,15 @@ public class UserController {
             updateUser.setImage(fileName);
         }
         return new ResponseEntity<>(userService.save(updateUser), HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}/merchant")
+    public ResponseEntity<?> getMerchant(@PathVariable Long userId) {
+        Optional<Merchant> findMerchant = merchantService.findMerchantByUser_Id(userId);
+        if (!findMerchant.isPresent()) {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
     }
 }

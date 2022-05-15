@@ -20,12 +20,12 @@ public class CartDto {
     private double serviceFee = 15000;
     private double shippingFee = 25000;
     private double discountAmount = 0;
-    private double feeTotal = serviceFee + shippingFee + discountAmount;
+    private double totalFee = serviceFee + shippingFee + discountAmount;
 
     public void addCartDetailDto(CartDetailDto cartDetailDto){
         this.cartDetails.add(cartDetailDto);
         foodTotal += cartDetailDto.getQuantity() * cartDetailDto.getDish().getPrice();
-        feeTotal = foodTotal + serviceFee + shippingFee + discountAmount;
+        totalFee = foodTotal + serviceFee + shippingFee + discountAmount;
         this.merchant = cartDetailDto.getDish().getMerchant();
     }
 }

@@ -1,7 +1,8 @@
 package com.codegym.service.dish;
 
+
 import com.codegym.model.entity.Merchant;
-import com.codegym.model.entity.category.Category;
+import com.codegym.model.entity.dish.category.Category;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.repository.dish.IDishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
