@@ -9,5 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface IMerchantRepository extends PagingAndSortingRepository<Merchant,Long> {
+
+    Optional<Merchant> findMerchantByUserId(Long id);
+
     Optional<Merchant> findFirstByUser_Id(Long userId);
+
 }

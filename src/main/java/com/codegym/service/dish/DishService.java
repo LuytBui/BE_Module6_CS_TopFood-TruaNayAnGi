@@ -1,5 +1,7 @@
 package com.codegym.service.dish;
 
+
+import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.category.Category;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.repository.dish.IDishRepository;
@@ -53,5 +55,10 @@ public class DishService implements IDishService {
     @Override
     public Iterable<Dish> findMostPurchased(int top) {
         return dishRepository.findTopPurchased(top);
+    }
+
+    @Override
+    public Iterable<Dish> findAllByMerchant(Merchant merchant) {
+        return dishRepository.findAllByMerchant(merchant);
     }
 }

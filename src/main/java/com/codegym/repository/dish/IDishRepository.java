@@ -1,6 +1,10 @@
 package com.codegym.repository.dish;
 
+
+import com.codegym.model.entity.Merchant;
+
 import com.codegym.model.entity.dish.category.Category;
+
 import com.codegym.model.entity.dish.Dish;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +27,6 @@ public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> 
     Iterable<Dish> findTopPurchased(@Param("top") int top);
 
     Iterable<Dish> findAllByCategoriesContaining(Category category);
+
+    Iterable<Dish> findAllByMerchant(Merchant merchant);
 }

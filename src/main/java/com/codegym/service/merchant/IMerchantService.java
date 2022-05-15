@@ -7,6 +7,7 @@ import com.codegym.service.IGeneralService;
 import java.util.Optional;
 
 public interface IMerchantService extends IGeneralService<Merchant>{
+    Optional<Merchant> findMerchantByUserId(Long id);
 
     Optional<Merchant> findMerchantByUser_Id(Long userId);
 }
