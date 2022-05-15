@@ -28,11 +28,12 @@ public class User {
     @NotBlank(message = "Không được để trống")
     private String email;
     @NotEmpty(message = "Không được để trống")
-    @Size(min = 6)
+    @Size(min = 8)
     private String password;
-    @Pattern(regexp = "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)$")
+    @Pattern(regexp = "^[0](\\\\+\\\\d{1,3}\\\\s?)?((\\\\(\\\\d{3}\\\\)\\\\s?)|(\\\\d{3})(\\\\s|-?))(\\\\d{3}(\\\\s|-?))(\\\\d{3})(\\\\s?(([E|e]xt[:|.|]?)|x|X)(\\\\s?\\\\d+))?")
     private String phone;
 
+    @Column(columnDefinition = "varchar(255) default 'user-default.jpg'")
     private String image;
 
     @ManyToOne
@@ -41,4 +42,7 @@ public class User {
     @OneToMany
     private List<Dish> favorite;
 
+    private String fullName;
+
+    private String address;
 }
