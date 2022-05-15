@@ -66,6 +66,7 @@ public class MerchantController {
         }
         Iterable<Dish> dishes = dishService.findAllByMerchant(merchantOptional.get());
         return new ResponseEntity<>(dishes, HttpStatus.OK);
+    }
 
     @PutMapping("/editMerchant/{id}")
     public ResponseEntity<Merchant> updateInformationMerchant(@PathVariable Long id, @RequestBody Merchant merchant) {
