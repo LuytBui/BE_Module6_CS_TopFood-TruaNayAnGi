@@ -13,8 +13,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> {
 //    Page<Dish> findAll(Pageable pageable);
@@ -29,4 +27,12 @@ public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> 
     Iterable<Dish> findAllByCategoriesContaining(Category category);
 
     Iterable<Dish> findAllByMerchant(Merchant merchant);
+
+    @Query(value = "select * from dishes limit :limit", nativeQuery = true)
+    Iterable<Dish> findAllDishes(@Param(value = "limit") int limit);
+
+    @Query(value = "select * from dishes where name like :namePattern limit :limit", nativeQuery = true)
+    Iterable<Dish> findAllDishesWithName(@Param(value = "namePattern") String namePattern, @Param(value = "limit") int limit);
+
+
 }
