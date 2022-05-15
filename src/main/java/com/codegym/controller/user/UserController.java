@@ -1,6 +1,7 @@
 package com.codegym.controller.user;
 
 import com.codegym.model.entity.Merchant;
+import com.codegym.model.entity.auth.ErrorMessage;
 import com.codegym.model.entity.user.User;
 import com.codegym.model.entity.user.UserInfoForm;
 import com.codegym.service.merchant.IMerchantService;

@@ -33,9 +33,13 @@ public class MerchantService implements IMerchantService {
 
     }
 
+    @Override
+    public Optional<Merchant> findMerchantByUserId(Long id) {
+        return merchantRepository.findMerchantByUserId(id);
 
     @Override
     public Optional<Merchant> findMerchantByUser_Id(Long userId) {
         return merchantRepository.findFirstByUser_Id(userId);
+
     }
 }
