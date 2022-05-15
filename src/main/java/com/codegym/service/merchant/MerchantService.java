@@ -1,6 +1,7 @@
 package com.codegym.service.merchant;
 
 import com.codegym.model.entity.Merchant;
+import com.codegym.model.entity.user.User;
 import com.codegym.repository.IMerchantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,11 @@ public class MerchantService implements IMerchantService {
     @Override
     public void deleteById(Long id) {
 
+    }
+
+
+    @Override
+    public Optional<Merchant> findMerchantByUser_Id(Long userId) {
+        return merchantRepository.findFirstByUser_Id(userId);
     }
 }

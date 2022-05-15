@@ -2,6 +2,7 @@ package com.codegym.controller;
 
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.MerchantRegisterRequest;
+import com.codegym.model.entity.user.User;
 import com.codegym.service.IMerchantRegisterService;
 import com.codegym.service.merchant.IMerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class MerchantController {
         }
         return new ResponseEntity<>(merchantOptional.get(), HttpStatus.OK);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Merchant> updateMerchant(@PathVariable Long id, @RequestBody Merchant newMerchant) {
