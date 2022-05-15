@@ -7,12 +7,15 @@ import com.codegym.model.entity.*;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.model.entity.user.User;
 import com.codegym.repository.ICartDetailRepository;
+import com.codegym.service.dish.IDishService;
 import com.codegym.service.order.IOrderService;
 import com.codegym.service.order_detail.IOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,6 +31,9 @@ public class CartService {
 
     @Autowired
     CartService cartService;
+
+    @Autowired
+    IDishService dishService;
 
     public Iterable<CartDetail> getUserCartDetails(User user) {
         return this.cartDetailRepository.findAllByUser(user);
@@ -127,17 +133,23 @@ public class CartService {
 
         order = orderService.save(order); // để tạo order.id => để các order detail có thể link đến
 
-        CartDto cartDto = orderDto.getCartDto();
+        CartDto cartDto = orderDto.getCart();
 
         // lưu order details
+        // tăng thuộc tính sold của dish và lưu vào DB
         List<CartDetailDto> cartDetailDtos = cartDto.getCartDetails();
         List<OrderDetail> orderDetails = new ArrayList<>();
         for (CartDetailDto cartDetailDto : cartDetailDtos) {
             OrderDetail orderDetail = new OrderDetail();
+            Dish dish = cartDetailDto.getDish();
+            int quantity = cartDetailDto.getQuantity();
             orderDetail.setOrder(order);
-            orderDetail.setDish(cartDetailDto.getDish());
-            orderDetail.setQuantity(cartDetailDto.getQuantity());
+            orderDetail.setDish(dish);
+            orderDetail.setQuantity(quantity);
             orderDetailService.save(orderDetail);
+
+            dish.setSold(dish.getSold() + quantity);
+            dishService.save(dish);
         }
 
         order.setServiceFee(cartDto.getServiceFee());
@@ -150,8 +162,14 @@ public class CartService {
         order.setCoupon(null);
 
         order = orderService.save(order);
+        order.setCreateDate(getCurrentDateTime());
         cartService.emptyCart(user);
         return orderService.save(order);
     }
 
+    String getCurrentDateTime(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        return formatter.format(date);
+    }
 }

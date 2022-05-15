@@ -21,7 +21,8 @@ public class Order {
     @ManyToOne
     private User user;
 
-    private Date createDate;
+    @Column(columnDefinition = "DATETIME")
+    private String createDate;
 
     @ManyToOne
     private Coupon coupon;
