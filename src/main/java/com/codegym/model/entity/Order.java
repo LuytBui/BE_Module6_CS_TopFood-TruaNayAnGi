@@ -26,4 +26,22 @@ public class Order {
     @ManyToOne
     private Coupon coupon;
 
+    @OneToOne
+    private DeliveryInfo deliveryInfo;
+
+    private double serviceFee;
+
+    private double shippingFee;
+
+    private double discountAmount;
+
+    private double totalFee;
+
+    @Column(columnDefinition = "VARCHAR(1000)")
+    private String restaurantNote;
+
+    @Column(columnDefinition = "VARCHAR(1000)")
+    private String shippingNote;
+
+
 }
