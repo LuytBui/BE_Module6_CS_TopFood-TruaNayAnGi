@@ -1,12 +1,14 @@
 package com.codegym.model.entity;
 
 import com.codegym.model.entity.user.User;
-import com.sun.istack.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Data
@@ -19,13 +21,15 @@ public class MerchantRegisterRequest {
 
     @ManyToOne
     private User user;
-    @NotNull
+    @NotEmpty(message = "Vui lòng nhập tên cửa hàng")
     private String name;
-    @NotNull
+    @NotEmpty(message = "Vui lòng nhập tên cửa hàng")
     private String description;
-    @NotNull
+    @NotEmpty(message = "Vui lòng nhập tên cửa hàng")
     private String address;
-    @NotNull
+    @NotEmpty(message = "Vui lòng nhập tên cửa hàng")
+    @Pattern(regexp = "^[0](\\+\\d{1,3}\\s?)?((\\(\\d{3}\\)\\s?)|(\\d{3})(\\s|-?))(\\d{3}(\\s|-?))(\\d{3})(\\s?(([E|e]xt[:|.|]?)|x|X)(\\s?\\d+))?"
+    )
     private String phone;
     private String openTime;
     private String closeTime;
