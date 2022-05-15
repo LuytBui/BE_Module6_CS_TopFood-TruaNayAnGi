@@ -42,4 +42,21 @@ public class MerchantController {
         newMerchant.setId(id);
         return new ResponseEntity<>(merchantService.save(newMerchant), HttpStatus.OK);
     }
+
+    @PutMapping("/editMerchant/{id}")
+    public ResponseEntity<Merchant> updateInformationMerchant(@PathVariable Long id, @RequestBody Merchant merchant) {
+        Optional<Merchant> merchantOptional = merchantService.findById(id);
+        if (!merchantOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Merchant newMerchant = merchantOptional.get();
+        newMerchant.setId(id);
+        newMerchant.setName(merchant.getName());
+        newMerchant.setDescription(merchant.getDescription());
+        newMerchant.setAddress(merchant.getAddress());
+        newMerchant.setPhone(merchant.getPhone());
+        newMerchant.setOpenTime(merchant.getOpenTime());
+        newMerchant.setCloseTime(merchant.getCloseTime());
+        return new ResponseEntity<>(merchantService.save(newMerchant), HttpStatus.OK);
+    }
 }

@@ -2,13 +2,12 @@ package com.codegym.model.entity;
 
 import com.codegym.model.entity.user.User;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 @Entity
@@ -22,18 +21,15 @@ public class MerchantRegisterRequest {
 
     @ManyToOne
     private User user;
-    @Column(nullable = false)
-    @NotBlank(message = "Vui lòng nhập tên cửa hàng của bạn")
+    @NotEmpty(message = "Vui lòng nhập tên cửa hàng")
     private String name;
-    @Column(nullable = false)
-    @NotBlank(message = "Vui lòng nhập mô tả cửa hàng của bạn")
+    @NotEmpty(message = "Vui lòng nhập tên cửa hàng")
     private String description;
-    @Column(nullable = false)
-    @NotBlank(message = "Vui lòng nhập địa chỉ của bạn")
+    @NotEmpty(message = "Vui lòng nhập tên cửa hàng")
     private String address;
-    @Column(nullable = false)
-    @NotBlank(message = "Vui lòng nhập số điện thoại của bạn")
-    @Pattern(regexp = "[0-9]{10,11}")
+    @NotEmpty(message = "Vui lòng nhập tên cửa hàng")
+    @Pattern(regexp = "^[0](\\+\\d{1,3}\\s?)?((\\(\\d{3}\\)\\s?)|(\\d{3})(\\s|-?))(\\d{3}(\\s|-?))(\\d{3})(\\s?(([E|e]xt[:|.|]?)|x|X)(\\s?\\d+))?"
+    )
     private String phone;
     private String openTime;
     private String closeTime;

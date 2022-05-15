@@ -40,4 +40,5 @@ public class User {
 
     @OneToMany
     private List<Dish> favorite;
+
 }
