@@ -29,7 +29,7 @@ public class UserInfoForm {
     @Size(min = 6)
     private String password;
 
-    @Pattern(regexp = "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)$")
+    @Pattern(regexp = "^[0](\\\\+\\\\d{1,3}\\\\s?)?((\\\\(\\\\d{3}\\\\)\\\\s?)|(\\\\d{3})(\\\\s|-?))(\\\\d{3}(\\\\s|-?))(\\\\d{3})(\\\\s?(([E|e]xt[:|.|]?)|x|X)(\\\\s?\\\\d+))?")
     private String phone;
 
     private MultipartFile image;
@@ -37,4 +37,8 @@ public class UserInfoForm {
     private Role role;
 
     private List<Dish> favorite;
+
+    private String fullName;
+
+    private String address;
 }

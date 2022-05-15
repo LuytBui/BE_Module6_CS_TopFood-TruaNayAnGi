@@ -55,6 +55,8 @@ public class AuthController {
         User user = new User();
         user.setEmail(userRegisterForm.getEmail());
         user.setUsername(userRegisterForm.getUsername());
+        user.setFullName(userRegisterForm.getFullName());
+        user.setAddress(userRegisterForm.getAddress());
         String encodedPassword = passwordEncoder.encode(userRegisterForm.getPassword());
         user.setPassword(encodedPassword);
         Role role = new Role(3L, Role.ROLE_CUSTOMER);
