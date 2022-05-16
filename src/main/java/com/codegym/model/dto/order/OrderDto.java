@@ -6,6 +6,8 @@ import com.codegym.model.entity.Merchant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 public class OrderDto {
@@ -13,5 +15,5 @@ public class OrderDto {
     private CartDto cart;
     private DeliveryInfo deliveryInfo;
     private Merchant merchant;
-    private String createDate;
+    private Date createDate;
 }
