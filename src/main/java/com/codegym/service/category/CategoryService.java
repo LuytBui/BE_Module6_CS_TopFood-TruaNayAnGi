@@ -1,7 +1,7 @@
 package com.codegym.service.category;
 
-import com.codegym.model.entity.category.Category;
-import com.codegym.model.entity.category.CategoryDTO;
+import com.codegym.model.entity.dish.category.Category;
+import com.codegym.model.entity.dish.category.CategoryDTO;
 import com.codegym.repository.ICategoryRepository;
 import com.codegym.service.dish.IDishService;
 import org.springframework.beans.factory.annotation.Autowired;

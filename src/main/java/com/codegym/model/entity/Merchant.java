@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Data
@@ -21,13 +24,14 @@ public class Merchant {
 
     @OneToOne
     private User user;
-
+    @NotEmpty
     private String name;
-
+    @NotEmpty
     private String description;
-
+    @NotEmpty
     private String address;
-
+    @NotEmpty
+    @Pattern(regexp = "^[0](\\+\\d{1,3}\\s?)?((\\(\\d{3}\\)\\s?)|(\\d{3})(\\s|-?))(\\d{3}(\\s|-?))(\\d{3})(\\s?(([E|e]xt[:|.|]?)|x|X)(\\s?\\d+))?")
     private String phone;
 
     @Column(columnDefinition = "TIME")

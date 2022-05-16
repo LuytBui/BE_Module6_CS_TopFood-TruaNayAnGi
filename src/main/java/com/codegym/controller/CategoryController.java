@@ -1,7 +1,6 @@
 package com.codegym.controller;
 
-import com.codegym.model.entity.category.Category;
-import com.codegym.model.entity.category.CategoryDTO;
+import com.codegym.model.entity.dish.category.CategoryDTO;
 import com.codegym.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
