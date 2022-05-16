@@ -6,15 +6,11 @@ import com.codegym.model.dto.order.OrderDto;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.OrderDetail;
-import com.codegym.model.entity.user.User;
 import com.codegym.repository.IOrderRepository;
 import com.codegym.service.order_detail.IOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

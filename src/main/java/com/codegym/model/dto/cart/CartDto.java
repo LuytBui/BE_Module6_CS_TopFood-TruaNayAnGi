@@ -1,7 +1,7 @@
 package com.codegym.model.dto.cart;
 
-import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.user.User;
+import com.codegym.model.entity.Merchant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
