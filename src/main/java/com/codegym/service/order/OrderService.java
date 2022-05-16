@@ -6,6 +6,7 @@ import com.codegym.model.dto.order.OrderDto;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.OrderDetail;
+import com.codegym.model.entity.user.User;
 import com.codegym.repository.IOrderRepository;
 import com.codegym.service.order_detail.IOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,11 @@ public class OrderService implements IOrderService {
         orderDto.setMerchant(merchant);
         orderDto.setCreateDate(order.getCreateDate());
         return orderDto;
+    }
+
+    @Override
+    public Iterable<Order> findAllByUserId(Long userId) {
+        return orderRepository.findAllByUser_Id(userId);
     }
 
 }

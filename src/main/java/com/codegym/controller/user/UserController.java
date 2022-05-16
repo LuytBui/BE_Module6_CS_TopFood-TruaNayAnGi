@@ -1,9 +1,12 @@
 package com.codegym.controller.user;
 
+import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
+import com.codegym.model.entity.Order;
 import com.codegym.model.entity.user.User;
 import com.codegym.model.entity.user.UserInfoForm;
 import com.codegym.service.merchant.IMerchantService;
+import com.codegym.service.order.IOrderService;
 import com.codegym.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +29,9 @@ public class UserController {
 
     @Autowired
     private IMerchantService merchantService;
+
+    @Autowired
+    private IOrderService orderService;
 
     @Value("${file-upload}")
     private String uploadPath;
@@ -75,4 +81,15 @@ public class UserController {
 
         return new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
     }
+
+    @GetMapping("/{userId}/orders")
+    public ResponseEntity<?> findOrderByUserId(@PathVariable Long userId) {
+        Iterable<Order> orders = orderService.findAllByUserId(userId);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+//    @GetMapping("{userId}/order/{orderId}")
+//    public ResponseEntity<?> findOrderIdByUserId(@PathVariable Long userId, Long orderId){
+//
+//
+//    }
 }
