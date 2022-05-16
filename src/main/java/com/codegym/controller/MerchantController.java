@@ -3,13 +3,17 @@ package com.codegym.controller;
 import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
+import com.codegym.model.entity.user.User;
 import com.codegym.service.dish.IDishService;
 import com.codegym.service.merchant.IMerchantService;
+import com.codegym.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @RestController
@@ -20,6 +24,9 @@ public class MerchantController {
     private IMerchantService merchantService;
     @Autowired
     private IDishService dishService;
+
+    @Autowired
+    IUserService userService;
 
     @GetMapping
     public ResponseEntity<Iterable<Merchant>> findAllMerchant() {
@@ -96,5 +103,24 @@ public class MerchantController {
         }
         Iterable<Dish> dishes = dishService.findAllByMerchant(merchantOptional.get());
         return new ResponseEntity<>(dishes, HttpStatus.OK);
+    }
+
+    @GetMapping("/my-merchant")
+    public ResponseEntity<?> getCurrentUserMerchant(){
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userService.findByUsername(principal.getName()).get();
+
+        if (currentUser == null) {
+            ErrorMessage errorMessage = new ErrorMessage("Người dùng chưa đăng nhập");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Merchant> findMerchant = merchantService.findMerchantByUser_Id(currentUser.getId());
+        if (!findMerchant.isPresent()){
+            ErrorMessage errorMessage = new ErrorMessage("Tài khoản này không phải là chủ cửa hàng");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        return  new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
     }
 }
