@@ -16,4 +16,5 @@ public interface ICartDetailRepository extends JpaRepository<CartDetail, Long> {
     CartDetail findFirstByUser(User user);
 
     CartDetail findByUserAndAndDish(User user, Dish dish);
+
 }
