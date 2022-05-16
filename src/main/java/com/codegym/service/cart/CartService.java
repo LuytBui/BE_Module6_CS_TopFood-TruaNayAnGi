@@ -162,14 +162,9 @@ public class CartService {
         order.setCoupon(null);
 
         order = orderService.save(order);
-        order.setCreateDate(getCurrentDateTime());
+        order.setCreateDate(new Date());
         cartService.emptyCart(user);
         return orderService.save(order);
     }
 
-    String getCurrentDateTime(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
-        return formatter.format(date);
-    }
 }
