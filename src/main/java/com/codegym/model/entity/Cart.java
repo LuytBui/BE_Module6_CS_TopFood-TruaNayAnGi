@@ -1,6 +1,5 @@
 package com.codegym.model.entity;
 
-import com.codegym.model.entity.dish.Dish;
 import com.codegym.model.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,17 +11,15 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartDetail {
+@Table(name = "carts")
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
-    private Cart cart;
+    private User user;
 
-    @ManyToOne
-    private Dish dish;
-
-    private int quantity;
-
+    @OneToOne
+    private Merchant merchant;
 }
