@@ -1,6 +1,6 @@
 package com.codegym.controller.user;
 
-import com.codegym.model.entity.ErrorMessage;
+import com.codegym.model.dto.order.OrderDto;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.user.User;
@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -84,8 +85,8 @@ public class UserController {
 
     @GetMapping("/{userId}/orders")
     public ResponseEntity<?> findOrderByUserId(@PathVariable Long userId) {
-        Iterable<Order> orders = orderService.findAllByUserId(userId);
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        List<OrderDto> orderDtos = orderService.findAllOrderDtoByUserId(userId);
+        return new ResponseEntity<>(orderDtos, HttpStatus.OK);
     }
 //    @GetMapping("{userId}/order/{orderId}")
 //    public ResponseEntity<?> findOrderIdByUserId(@PathVariable Long userId, Long orderId){

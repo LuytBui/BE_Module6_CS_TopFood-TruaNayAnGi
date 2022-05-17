@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface IOrderRepository extends JpaRepository<Order, Long> {
     Iterable<Order> findAllByUser(User user);
     Iterable<Order> findAllByUser_Id(Long userId);
-    Optional<Order> findOrderByUserId(Long userId, Long orderId);
+//    Optional<Order> findOrderByUserId(Long userId, Long orderId);
 
 }
