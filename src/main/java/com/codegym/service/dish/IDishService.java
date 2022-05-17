@@ -1,6 +1,5 @@
 package com.codegym.service.dish;
 
-
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.category.Category;
 import com.codegym.model.entity.dish.Dish;
@@ -18,6 +17,8 @@ public interface IDishService extends IGeneralService<Dish> {
     Iterable<Dish> findMostPurchased(int top);
 
     Iterable<Dish> findAllByMerchant(Merchant merchant);
+
+    Iterable<Dish> viewDishByMerchant(Merchant merchant);
 
     Iterable<Dish> findAllByMerchant_Id(Long id);
 }
