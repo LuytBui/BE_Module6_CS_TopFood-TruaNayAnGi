@@ -93,7 +93,7 @@ public class OrderService implements IOrderService {
   
     @Override
     public Iterable<Order> findAllByUserId(Long id) {
-        return orderRepository.findAllByUserId(id);
+        return orderRepository.findAllByUser_Id(id);
     }
 
 }
