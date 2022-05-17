@@ -1,8 +1,10 @@
 package com.codegym.controller;
 
+import com.codegym.model.dto.dish.DishDto;
 import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
+import com.codegym.model.entity.dish.category.CategoryDTO;
 import com.codegym.model.entity.user.User;
 import com.codegym.service.dish.IDishService;
 import com.codegym.service.merchant.IMerchantService;
@@ -107,5 +109,11 @@ public class MerchantController {
         }
 
         return  new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/get-dishes-dto")
+    public ResponseEntity<?> findAllOrderByDish(@PathVariable Long id){
+        Iterable<DishDto> dishDTOs = merchantService.getAllDishDTO(id);
+        return new ResponseEntity<>(dishDTOs, HttpStatus.OK);
     }
 }

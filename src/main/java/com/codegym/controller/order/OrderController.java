@@ -40,4 +40,10 @@ public class OrderController {
         List<Order> orders = (List<Order>) orderDetailService.findAllOrderByDishId(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<?> getAllOrderByUserId (@PathVariable Long id){
+        Iterable<Order> orders = orderService.findAllByUserId(id);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
 }
