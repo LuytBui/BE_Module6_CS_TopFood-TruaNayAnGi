@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface IOrderRepository extends JpaRepository<Order, Long> {
     Iterable<Order> findAllByUser(User user);
-    Iterable<Order> findAllByUser_Id(Long userId);
+    Iterable<Order> findAllByUser_IdOrderByCreateDateDesc(Long userId);
 }
