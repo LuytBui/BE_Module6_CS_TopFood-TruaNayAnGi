@@ -8,6 +8,5 @@ import java.util.Optional;
 public interface IMerchantRegisterService extends IGeneralService<MerchantRegisterRequest> {
     Optional<MerchantRegisterRequest> findByUserAndReviewed(User user, boolean reviewed);
 
-
     Iterable<MerchantRegisterRequest> findMerchantByReviewed(boolean reviewed);
 }
