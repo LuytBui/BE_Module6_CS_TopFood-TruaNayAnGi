@@ -34,4 +34,7 @@ public class Shipper {
 
     @NotEmpty
     private String carName;
+
+    @Column(name = "isActive", columnDefinition = "boolean default true")
+    private boolean isActive;
 }

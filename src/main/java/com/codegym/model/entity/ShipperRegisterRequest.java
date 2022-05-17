@@ -29,5 +29,14 @@ public class ShipperRegisterRequest {
     private String phone;
 
     @NotEmpty
+    private String licensePlates;
+
+    @NotEmpty
     private String carName;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean reviewed;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean accept;
 }
