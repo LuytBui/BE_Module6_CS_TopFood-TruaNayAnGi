@@ -2,6 +2,7 @@ package com.codegym.service.cart_detail;
 
 import com.codegym.model.entity.Cart;
 import com.codegym.model.entity.CartDetail;
+import com.codegym.model.entity.dish.Dish;
 import com.codegym.repository.ICartDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,11 @@ public class CartDetailService implements ICartDetailService {
     @Override
     public Iterable<CartDetail> findAllByCart(Cart cart) {
         return cartDetailRepository.findAllByCart(cart);
+    }
+
+    @Override
+    public Optional<CartDetail> findByCartAndDish(Cart cart, Dish dish) {
+        return cartDetailRepository.findByCartAndDish(cart, dish);
     }
 
 }

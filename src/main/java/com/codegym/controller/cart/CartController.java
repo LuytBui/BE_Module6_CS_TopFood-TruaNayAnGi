@@ -2,6 +2,7 @@ package com.codegym.controller.cart;
 
 import com.codegym.model.dto.cart.CartDetailDto;
 import com.codegym.model.dto.cart.CartDto;
+import com.codegym.model.entity.Cart;
 import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
@@ -71,35 +72,34 @@ public class CartController {
 //        return new ResponseEntity<>(updatedCart, HttpStatus.OK);
 //    }
 //
-//
-//    public ResponseEntity<?> changeDishQuantity(Long dishId, int amount) {
-//        Principal principal = SecurityContextHolder.getContext().getAuthentication();
-//        User currentUser = userService.findByUsername(principal.getName()).get();
-//
-//        if (currentUser == null) {
-//            ErrorMessage errorMessage = new ErrorMessage("Người dùng chưa đăng nhập");
-//            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-//        }
-//
-//        Optional<Dish> findDish = dishService.findById(dishId);
-//        if (!findDish.isPresent()){
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//
-//        Dish dish = findDish.get();
-//        CartDto cartDto = cartService.changeDishQuantity(currentUser, dish, amount);
-//        return new ResponseEntity<>(cartDto, HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/increase-dish-quantity/{dishId}")
-//    public ResponseEntity<?> increaseDishQuantityInCart(@PathVariable Long dishId){
-//        return changeDishQuantity(dishId, 1);
-//    }
-//
-//    @GetMapping("/decrease-dish-quantity/{dishId}")
-//    public ResponseEntity<?> decreaseDishQuantityInCart(@PathVariable Long dishId){
-//        return changeDishQuantity(dishId, -1);
-//    }
+
+    public ResponseEntity<?> changeDishQuantity(Long cartId, Long dishId, int amount) {
+        Optional<Cart> findCart = cartService.findById(cartId);
+        if (!findCart.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Dish> findDish = dishService.findById(dishId);
+        if (!findDish.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Cart cart = findCart.get();
+        Dish dish = findDish.get();
+
+        boolean result = cartService.changeDishQuantityInCart(cart, dish, amount);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/{cartId}/increase-dish-quantity/{dishId}")
+    public ResponseEntity<?> increaseDishQuantityInCart(@PathVariable Long cartId, @PathVariable Long dishId) {
+        return changeDishQuantity(cartId, dishId, 1);
+    }
+
+    @GetMapping("/{cartId}/decrease-dish-quantity/{dishId}")
+    public ResponseEntity<?> decreaseDishQuantityInCart(@PathVariable Long cartId, @PathVariable Long dishId) {
+        return changeDishQuantity(cartId, dishId, -1);
+    }
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<?> getAllCartDtoByUser(@PathVariable Long userId) {
@@ -130,4 +130,18 @@ public class CartController {
         return new ResponseEntity<>(cartDto, HttpStatus.OK);
     }
 
+    @PostMapping("/users/current-user/add-dish-to-cart")
+    public ResponseEntity<?> addDishToCart(@RequestBody CartDetailDto cartDetailDto) {
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userService.findByUsername(principal.getName()).get();
+
+        Optional<Dish> findDish = dishService.findById(cartDetailDto.getDish().getId());
+        if (!findDish.isPresent()) {
+            ErrorMessage errorMessage = new ErrorMessage("Món ăn không tồn tại");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        CartDto cartDto = cartService.addDishToCart(currentUser, cartDetailDto);
+        return new ResponseEntity<>(cartDto, HttpStatus.OK);
+    }
 }
