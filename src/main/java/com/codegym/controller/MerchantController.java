@@ -3,6 +3,7 @@ package com.codegym.controller;
 import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
+import com.codegym.model.entity.dish.DishForm;
 import com.codegym.model.entity.user.User;
 import com.codegym.service.dish.IDishService;
 import com.codegym.service.merchant.IMerchantService;
@@ -11,8 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Optional;
 
@@ -59,17 +64,6 @@ public class MerchantController {
 //        Iterable<Dish> dishes = dishService.findAllByMerchantId(id);
 //        return new ResponseEntity<>(dishes, HttpStatus.OK);
 //    }
-
-    @GetMapping("/user/{userId}/merchant/dishes")
-    public ResponseEntity<?> findMerchantByUserId(@PathVariable Long userId) {
-        Optional<Merchant> merchantOptional = merchantService.findMerchantByUserId(userId);
-        if (!merchantOptional.isPresent()) {
-            ErrorMessage errorMessage = new ErrorMessage("Cửa hàng không tồn tại");
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        }
-        Iterable<Dish> dishes = dishService.findAllByMerchant(merchantOptional.get());
-        return new ResponseEntity<>(dishes, HttpStatus.OK);
-    }
 
     @PutMapping("/editMerchant/{id}")
     public ResponseEntity<Merchant> updateInformationMerchant(@PathVariable Long id, @RequestBody Merchant merchant) {
@@ -122,5 +116,18 @@ public class MerchantController {
         }
 
         return  new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
+    }
+
+    @PostMapping("/dish/create")
+    public ResponseEntity<?> saveDish(@RequestBody DishForm dishForm) {
+            Dish dish = new Dish();
+            dish.setId(dishForm.getId());
+            dish.setName(dishForm.getName());
+            dish.setCategories(dishForm.getCategories());
+            dish.setPrice(dishForm.getPrice());
+            dish.setMerchant(dishForm.getMerchant());
+            dish.setDescription(dishForm.getDescription());
+//            dish.setImage(fileName);
+            return new ResponseEntity<>(dishService.save(dish), HttpStatus.CREATED);
     }
 }
