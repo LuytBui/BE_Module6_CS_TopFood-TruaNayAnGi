@@ -85,7 +85,6 @@ public class RegisterMerchantController {
         merchant.setPhone(mrr.getPhone());
         merchant.setOpenTime(mrr.getOpenTime());
         merchant.setCloseTime(mrr.getCloseTime());
-
         // sua role user thanh role merchant
         User user = mrr.getUser();
         Role role = new Role(2L, Role.ROLE_MERCHANT);
