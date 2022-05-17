@@ -106,21 +106,72 @@ public class CartService implements ICartService {
         Iterable<Cart> carts = findAllCartByUser(user);
         List<CartDto> cartDtos = new ArrayList<>();
         for (Cart cart : carts) {
+            List<CartDetail> cartDetails = (List<CartDetail>) cartDetailService.findAllByCart(cart);
+            if (cartDetails.size() == 0) {
+                cartRepository.deleteById(cart.getId());
+                break;
+            }
             CartDto cartDto = makeCartDtoFromCart(cart);
             cartDtos.add(cartDto);
         }
         return cartDtos;
     }
 
+    @Override
+    public CartDto addDishToCart(User user, CartDetailDto cartDetailDto) {
+        Dish dish = cartDetailDto.getDish();
+        Merchant merchant = dish.getMerchant();
+        int quantity = cartDetailDto.getQuantity();
+        CartDto cartDto = getCartDtoByUserAndMerchant(user, merchant);
+        Long cartId = cartDto.getId();
+        Cart cart = findById(cartId).get();
 
-    public CartDto makeCartDtoFromCart(Cart cart){
+        Optional<CartDetail> findCartDetail = cartDetailService.findByCartAndDish(cart, dish);
+        CartDetail cartDetail;
+        if (findCartDetail.isPresent()) {
+            cartDetail = findCartDetail.get();
+            cartDetail.setQuantity(cartDetail.getQuantity() + quantity);
+        } else {
+            cartDetail = new CartDetail();
+            cartDetail.setDish(dish);
+            cartDetail.setCart(cart);
+            cartDetail.setQuantity(quantity);
+        }
+        cartDetailService.save(cartDetail);
+        cartDto = getCartDtoByUserAndMerchant(user, merchant);
+        return cartDto;
+    }
+
+    @Override
+    public boolean changeDishQuantityInCart(Cart cart, Dish dish, int amount) {
+        Optional<CartDetail> findCartDetail = cartDetailService.findByCartAndDish(cart, dish);
+        CartDetail cartDetail;
+        if (findCartDetail.isPresent()){
+            cartDetail = findCartDetail.get();
+            cartDetail.setQuantity(cartDetail.getQuantity() + amount);
+        } else {
+            if (amount < 0) return false;
+            cartDetail = new CartDetail();
+            cartDetail.setCart(cart);
+            cartDetail.setDish(dish);
+            cartDetail.setQuantity(amount);
+        }
+        if (cartDetail.getQuantity() < 1){
+            cartDetailService.deleteById(cartDetail.getId());
+        } else {
+            cartDetailService.save(cartDetail);
+        }
+        return true;
+    }
+
+
+    public CartDto makeCartDtoFromCart(Cart cart) {
         CartDto cartDto = new CartDto();
         cartDto.setId(cart.getId());
         cart.setUser(cart.getUser());
         cartDto.setMerchant(cart.getMerchant());
 
         Iterable<CartDetail> cartDetails = cartDetailService.findAllByCart(cart);
-        List<CartDetailDto> cartDetailDtos = new ArrayList<>();
         cartDetails.forEach(
                 cartDetail -> {
                     CartDetailDto cartDetailDto = new CartDetailDto();
