@@ -2,6 +2,7 @@ package com.codegym.controller;
 
 import com.codegym.model.ShipperRegisterForm;
 import com.codegym.model.entity.ErrorMessage;
+import com.codegym.model.entity.MerchantRegisterRequest;
 import com.codegym.model.entity.ShipperRegisterRequest;
 import com.codegym.model.entity.user.User;
 import com.codegym.service.shipper.IShipperService;
@@ -47,5 +48,11 @@ public class RegisterShipperController {
         shipper.setLicensePlates(shipperRegisterForm.getLicensePlates());
         shipper = shipperRegisterService.save(shipper);
         return new ResponseEntity<>(shipper, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findAllShipperRegisterRequest() {
+        Iterable<ShipperRegisterRequest> shipperRegisterRequests = shipperRegisterService.findShipperByReviewed(false);
+        return new ResponseEntity<>(shipperRegisterRequests, HttpStatus.OK);
     }
 }
