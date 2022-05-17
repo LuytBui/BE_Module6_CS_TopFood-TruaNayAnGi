@@ -60,6 +60,7 @@ public class AuthController {
         String encodedPassword = passwordEncoder.encode(userRegisterForm.getPassword());
         user.setPassword(encodedPassword);
         Role role = new Role(3L, Role.ROLE_CUSTOMER);
+        user.setImage("user-default.jpg");
         user.setRole(role);
 
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);

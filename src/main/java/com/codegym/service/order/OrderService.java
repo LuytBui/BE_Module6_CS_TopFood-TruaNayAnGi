@@ -90,5 +90,10 @@ public class OrderService implements IOrderService {
 
         return orderDtos;
     }
+  
+    @Override
+    public Iterable<Order> findAllByUserId(Long id) {
+        return orderRepository.findAllByUserId(id);
+    }
 
 }

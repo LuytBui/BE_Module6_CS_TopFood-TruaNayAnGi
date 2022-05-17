@@ -10,5 +10,5 @@ public interface IOrderService extends IGeneralService<Order> {
 
     OrderDto getOrderDto(Long orderId);
     List<OrderDto> findAllOrderDtoByUserId(Long userId);
-
+    Iterable<Order> findAllByUserId (Long id);
 }

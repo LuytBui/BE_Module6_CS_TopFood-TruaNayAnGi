@@ -5,6 +5,7 @@ import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.user.User;
 import com.codegym.service.order.IOrderService;
+import com.codegym.service.order_detail.IOrderDetailService;
 import com.codegym.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -22,6 +24,9 @@ public class OrderController {
 
     @Autowired
     IOrderService orderService;
+
+    @Autowired
+    IOrderDetailService orderDetailService;
 
 
     /*
@@ -34,4 +39,15 @@ public class OrderController {
     }
 
 
+    @GetMapping("/dishes/{id}")
+    public ResponseEntity<?> getAllOrderByDish (@PathVariable Long id){
+        List<Order> orders = (List<Order>) orderDetailService.findAllOrderByDishId(id);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<?> getAllOrderByUserId (@PathVariable Long id){
+        Iterable<Order> orders = orderService.findAllByUserId(id);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
 }

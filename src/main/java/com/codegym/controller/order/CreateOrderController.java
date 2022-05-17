@@ -28,25 +28,25 @@ public class CreateOrderController {
     @Autowired
     CartService cartService;
 
-    // Input 1 orderDto => tạo vào lưu order vào DB
-    @PostMapping("/create-order")
-    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto) {
-        Principal principal = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = userService.findByUsername(principal.getName()).get();
-
-        if (currentUser == null) {
-            ErrorMessage errorMessage = new ErrorMessage("Người dùng chưa đăng nhập");
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        }
-
-        if (orderDto.getCart().getCartDetails().size() == 0) {
-            ErrorMessage errorMessage = new ErrorMessage("Giỏ hàng trống");
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        }
-
-        Order order = cartService.saveOrderToDB(currentUser, orderDto);
-        return new ResponseEntity<>(order, HttpStatus.OK);
-    }
+//    // Input 1 orderDto => tạo vào lưu order vào DB
+//    @PostMapping("/create-order")
+//    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto) {
+//        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+//        User currentUser = userService.findByUsername(principal.getName()).get();
+//
+//        if (currentUser == null) {
+//            ErrorMessage errorMessage = new ErrorMessage("Người dùng chưa đăng nhập");
+//            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+//        }
+//
+//        if (orderDto.getCart().getCartDetails().size() == 0) {
+//            ErrorMessage errorMessage = new ErrorMessage("Giỏ hàng trống");
+//            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+//        }
+//
+//        Order order = cartService.saveOrderToDB(currentUser, orderDto);
+//        return new ResponseEntity<>(order, HttpStatus.OK);
+//    }
 
 
 }
