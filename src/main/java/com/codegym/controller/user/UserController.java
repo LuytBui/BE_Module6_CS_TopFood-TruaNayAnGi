@@ -1,9 +1,12 @@
 package com.codegym.controller.user;
 
+import com.codegym.model.dto.order.OrderDto;
 import com.codegym.model.entity.Merchant;
+import com.codegym.model.entity.Order;
 import com.codegym.model.entity.user.User;
 import com.codegym.model.entity.user.UserInfoForm;
 import com.codegym.service.merchant.IMerchantService;
+import com.codegym.service.order.IOrderService;
 import com.codegym.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +30,9 @@ public class UserController {
 
     @Autowired
     private IMerchantService merchantService;
+
+    @Autowired
+    private IOrderService orderService;
 
     @Value("${file-upload}")
     private String uploadPath;
@@ -75,4 +82,15 @@ public class UserController {
 
         return new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
     }
+
+    @GetMapping("/{userId}/orders")
+    public ResponseEntity<?> findOrderByUserId(@PathVariable Long userId) {
+        List<OrderDto> orderDtos = orderService.findAllOrderDtoByUserId(userId);
+        return new ResponseEntity<>(orderDtos, HttpStatus.OK);
+    }
+//    @GetMapping("{userId}/order/{orderId}")
+//    public ResponseEntity<?> findOrderIdByUserId(@PathVariable Long userId, Long orderId){
+//
+//
+//    }
 }
