@@ -17,4 +17,6 @@ public interface IDishService extends IGeneralService<Dish> {
     Iterable<Dish> findMostPurchased(int top);
 
     Iterable<Dish> findAllByMerchant(Merchant merchant);
+
+    Iterable<Dish> viewDishByMerchant(Merchant merchant);
 }
