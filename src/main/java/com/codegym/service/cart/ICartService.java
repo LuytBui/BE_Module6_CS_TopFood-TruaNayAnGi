@@ -27,4 +27,6 @@ public interface ICartService extends IGeneralService<Cart> {
 
     boolean changeDishQuantityInCart(Cart cart, Dish dish, int amount);
 
+    void emptyCartById(Long cartId);
+
 }
