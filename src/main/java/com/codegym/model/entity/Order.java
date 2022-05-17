@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -20,8 +21,7 @@ public class Order {
     @ManyToOne
     private User user;
 
-    @Column(columnDefinition = "DATETIME")
-    private String createDate;
+    private Date createDate;
 
     @ManyToOne
     private Coupon coupon;
