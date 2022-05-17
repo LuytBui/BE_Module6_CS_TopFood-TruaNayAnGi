@@ -18,4 +18,6 @@ public interface ICartDetailRepository extends JpaRepository<CartDetail, Long> {
 
     Optional<CartDetail> findByCartAndDish(Cart cart, Dish dish);
 
+    CartDetail findByUserAndAndDish(User user, Dish dish);
+
 }

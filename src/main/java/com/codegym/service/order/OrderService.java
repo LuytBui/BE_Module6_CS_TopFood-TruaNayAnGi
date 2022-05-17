@@ -6,11 +6,13 @@ import com.codegym.model.dto.order.OrderDto;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.OrderDetail;
+import com.codegym.model.entity.user.User;
 import com.codegym.repository.IOrderRepository;
 import com.codegym.service.order_detail.IOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -75,6 +77,20 @@ public class OrderService implements IOrderService {
         return orderDto;
     }
 
+    @Override
+    public List<OrderDto> findAllOrderDtoByUserId(Long userId) {
+
+        Iterable<Order> orders =  orderRepository.findAllByUser_Id(userId);
+        List<OrderDto> orderDtos = new ArrayList<>();
+
+        for (Order order : orders) {
+            OrderDto orderDto = getOrderDto(order.getId());
+            orderDtos.add(orderDto);
+        }
+
+        return orderDtos;
+    }
+  
     @Override
     public Iterable<Order> findAllByUserId(Long id) {
         return orderRepository.findAllByUserId(id);

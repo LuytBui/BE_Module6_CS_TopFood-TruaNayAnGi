@@ -1,7 +1,9 @@
 package com.codegym.controller.order;
 
 import com.codegym.model.dto.order.OrderDto;
+import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Order;
+import com.codegym.model.entity.user.User;
 import com.codegym.service.order.IOrderService;
 import com.codegym.service.order_detail.IOrderDetailService;
 import com.codegym.service.user.IUserService;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.List;
 
 @RestController
@@ -34,6 +37,7 @@ public class OrderController {
         OrderDto orderDto = orderService.getOrderDto(orderId);
         return new ResponseEntity<>(orderDto, HttpStatus.OK);
     }
+
 
     @GetMapping("/dishes/{id}")
     public ResponseEntity<?> getAllOrderByDish (@PathVariable Long id){

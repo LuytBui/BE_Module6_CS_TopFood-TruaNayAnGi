@@ -44,4 +44,8 @@ public class Merchant {
 
     @Column(name = "isActive", columnDefinition = "boolean default true")
     private boolean isActive;
+
+    private String avatar;
+
+    private String imageBanner;
 }
