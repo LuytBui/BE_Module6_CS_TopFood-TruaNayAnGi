@@ -35,5 +35,4 @@ public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> 
     Iterable<Dish> findAllDishesWithName(@Param(value = "namePattern") String namePattern, @Param(value = "limit") int limit);
 
     Iterable<Dish> findAllByMerchant_Id(Long id);
-
 }
