@@ -1,11 +1,14 @@
 package com.codegym.service;
 
+import com.codegym.model.dto.dish.DishDto;
 import com.codegym.model.entity.MerchantRegisterRequest;
 import com.codegym.model.entity.user.User;
 import com.codegym.repository.IMerchantRegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service

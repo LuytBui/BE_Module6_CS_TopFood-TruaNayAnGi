@@ -3,7 +3,9 @@ package com.codegym.service.order_detail;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.OrderDetail;
 import com.codegym.repository.IOrderDetailRepository;
+import com.codegym.repository.IOrderRepository;
 import com.codegym.service.order.IOrderService;
+import com.codegym.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ import java.util.Optional;
 public class OrderDetailService implements IOrderDetailService {
     @Autowired
     IOrderDetailRepository orderDetailRepository;
+
+    @Autowired
+    IOrderRepository orderRepository;
     @Autowired
     IOrderService orderService;
 
@@ -68,4 +73,5 @@ public class OrderDetailService implements IOrderDetailService {
 
         return orders;
     }
+
 }
