@@ -143,10 +143,9 @@ public class MerchantController {
         return new ResponseEntity<>(customerDTOs, HttpStatus.OK);
     }
 
-    @GetMapping ("/{id}/get-users-dto")
-    public ResponseEntity<?> finAllMerchantOrderByCustomerId (@PathVariable Long id){
-        Merchant merchant = new Merchant();
-        Iterable<OrderByQueryDto> orderByQueryDTOs = merchantService.finAllMerchantOrderByCustomerId(merchant.getId(), id);
+    @GetMapping ("/{merchantId}/users/{userId}/orders")
+    public ResponseEntity<?> finAllMerchantOrderByCustomerId (@PathVariable Long merchantId,@PathVariable Long userId){
+        Iterable<OrderByQueryDto> orderByQueryDTOs = merchantService.finAllMerchantOrderByCustomerId(merchantId, userId);
         return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
     }
 }

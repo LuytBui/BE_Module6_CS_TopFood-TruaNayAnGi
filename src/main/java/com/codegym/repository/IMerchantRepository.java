@@ -26,6 +26,6 @@ public interface IMerchantRepository extends PagingAndSortingRepository<Merchant
     @Query(value = "select o.*, count(o.id) as orderQuantity" +
             " from merchants join dishes d on merchants.id = d.merchant_id" +
             " join order_detail od on d.id = od.dish_id join orders o on od.order_id = o.id" +
-            " join users u on o.user_id = u.id where merchant_id = :merchantId and u.id = : userId group by u.id", nativeQuery = true)
-    Iterable<OrderByQueryDto> finAllMerchantOrderByCustomerId (@Param(value = "merchantId") Long merchantId, Long userId);
+            " join users u on o.user_id = u.id where merchant_id = :merchantId and u.id = :userId group by u.id", nativeQuery = true)
+    Iterable<OrderByQueryDto> finAllMerchantOrderByCustomerId (@Param(value = "merchantId") Long merchantId,  @Param(value = "userId")Long userId);
 }
