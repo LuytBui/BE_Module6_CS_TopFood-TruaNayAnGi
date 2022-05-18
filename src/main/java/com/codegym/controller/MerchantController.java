@@ -2,6 +2,7 @@ package com.codegym.controller;
 
 import com.codegym.model.dto.customer.ICustomerDto;
 import com.codegym.model.dto.dish.DishDto;
+import com.codegym.model.dto.order.OrderByQueryDto;
 import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
@@ -140,6 +141,13 @@ public class MerchantController {
         Iterable<ICustomerDto> customerDTOs = merchantService.getAllCustomerDto(id);
         return new ResponseEntity<>(customerDTOs, HttpStatus.OK);
     }
+
+    @GetMapping ("/{merchantId}/users/{userId}/orders")
+    public ResponseEntity<?> finAllMerchantOrderByCustomerId (@PathVariable Long merchantId,@PathVariable Long userId){
+        Iterable<OrderByQueryDto> orderByQueryDTOs = merchantService.finAllMerchantOrderByCustomerId(merchantId, userId);
+        return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
+    }
+}
 
     @PutMapping("/dish/{id}")
     public ResponseEntity<?> updateMerchantDishById(@PathVariable Long id, @RequestBody DishForm dishForm) {
