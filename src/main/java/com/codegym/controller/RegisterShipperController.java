@@ -1,9 +1,8 @@
 package com.codegym.controller;
 
 import com.codegym.model.ShipperRegisterForm;
-import com.codegym.model.entity.ErrorMessage;
-import com.codegym.model.entity.MerchantRegisterRequest;
-import com.codegym.model.entity.ShipperRegisterRequest;
+import com.codegym.model.entity.*;
+import com.codegym.model.entity.user.Role;
 import com.codegym.model.entity.user.User;
 import com.codegym.service.shipper.IShipperService;
 import com.codegym.service.shipper_register.IShipperRegisterService;
@@ -54,5 +53,50 @@ public class RegisterShipperController {
     public ResponseEntity<?> findAllShipperRegisterRequest() {
         Iterable<ShipperRegisterRequest> shipperRegisterRequests = shipperRegisterService.findShipperByReviewed(false);
         return new ResponseEntity<>(shipperRegisterRequests, HttpStatus.OK);
+    }
+    @PostMapping("/accept/{id}")
+    public ResponseEntity<?> acceptRegisterRequest(@PathVariable Long id) {
+        Optional<ShipperRegisterRequest> findShipperRegisterRequest = shipperRegisterService.findById(id);
+        if (!findShipperRegisterRequest.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ShipperRegisterRequest srr = findShipperRegisterRequest.get();
+
+        Shipper shipper = new Shipper();
+        shipper.setUser(srr.getUser());
+        shipper.setName(srr.getName());
+        shipper.setPhone(srr.getPhone());
+        shipper.setLicensePlates(srr.getPhone());
+        shipper.setCarName(srr.getPhone());
+
+
+
+        User user = srr.getUser();
+        Role role = new Role(2L, Role.ROLE_SHIPPER);
+        user.setRole(role);
+
+        srr.setReviewed(true);
+        srr.setAccept(true);
+
+        //luu thay doi vao DB
+        shipperService.save(shipper);
+        userService.save(user);
+        shipperRegisterService.save(srr);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/refuse/{id}")
+    public ResponseEntity<?> refuseRegisterRequest(@PathVariable Long id) {
+        Optional<ShipperRegisterRequest> findShipperRegisterRequest = shipperRegisterService.findById(id);
+        if (!findShipperRegisterRequest.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        ShipperRegisterRequest srr = findShipperRegisterRequest.get();
+        srr.setReviewed(true);
+        srr.setAccept(false);
+        shipperRegisterService.save(srr);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
