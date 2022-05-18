@@ -44,4 +44,9 @@ public class CartDetailService implements ICartDetailService {
         return cartDetailRepository.findByCartAndDish(cart, dish);
     }
 
+    @Override
+    public void deleteAllByCart(Cart cart) {
+        cartDetailRepository.deleteAllByCart(cart);
+    }
+
 }

@@ -37,5 +37,7 @@ public class MerchantRegisterRequest {
     private boolean reviewed;
     @Column(columnDefinition = "boolean default false")
     private boolean accept;
+//    private String avatar;
+//    private String imageBanner;
 
 }

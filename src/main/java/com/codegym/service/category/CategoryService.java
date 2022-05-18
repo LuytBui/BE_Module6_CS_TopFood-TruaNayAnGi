@@ -56,4 +56,9 @@ public class CategoryService implements ICategoryService{
         );
         return categoryDTOs;
     }
+
+    @Override
+    public List<Category> findTop5Categories() {
+        return categoryRepository.findTop5Categories();
+    }
 }
