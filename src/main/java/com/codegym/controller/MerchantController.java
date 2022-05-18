@@ -142,12 +142,11 @@ public class MerchantController {
         return new ResponseEntity<>(customerDTOs, HttpStatus.OK);
     }
 
-    @GetMapping ("/{merchantId}/users/{userId}/orders")
-    public ResponseEntity<?> finAllMerchantOrderByCustomerId (@PathVariable Long merchantId,@PathVariable Long userId){
+    @GetMapping("/{merchantId}/users/{userId}/orders")
+    public ResponseEntity<?> finAllMerchantOrderByCustomerId(@PathVariable Long merchantId, @PathVariable Long userId) {
         Iterable<OrderByQueryDto> orderByQueryDTOs = merchantService.finAllMerchantOrderByCustomerId(merchantId, userId);
         return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
     }
-}
 
     @PutMapping("/dish/{id}")
     public ResponseEntity<?> updateMerchantDishById(@PathVariable Long id, @RequestBody DishForm dishForm) {
