@@ -1,6 +1,7 @@
 package com.codegym.controller;
 
 import com.codegym.model.dto.dish.DishDto;
+import com.codegym.model.dto.order.OrderDto;
 import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
@@ -9,6 +10,7 @@ import com.codegym.model.entity.dish.category.CategoryDTO;
 import com.codegym.model.entity.user.User;
 import com.codegym.service.dish.IDishService;
 import com.codegym.service.merchant.IMerchantService;
+import com.codegym.service.order.IOrderService;
 import com.codegym.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,6 +37,9 @@ public class MerchantController {
 
     @Autowired
     IUserService userService;
+
+    @Autowired
+    IOrderService orderService;
 
     @GetMapping
     public ResponseEntity<Iterable<Merchant>> findAllMerchant() {
@@ -102,7 +108,7 @@ public class MerchantController {
     }
 
     @GetMapping("/my-merchant")
-    public ResponseEntity<?> getCurrentUserMerchant(){
+    public ResponseEntity<?> getCurrentUserMerchant() {
         Principal principal = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userService.findByUsername(principal.getName()).get();
 
@@ -112,31 +118,37 @@ public class MerchantController {
         }
 
         Optional<Merchant> findMerchant = merchantService.findMerchantByUser_Id(currentUser.getId());
-        if (!findMerchant.isPresent()){
+        if (!findMerchant.isPresent()) {
             ErrorMessage errorMessage = new ErrorMessage("Tài khoản này không phải là chủ cửa hàng");
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
-        return  new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
+        return new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
     }
 
     @PostMapping("/dish/create")
     public ResponseEntity<?> saveDish(@RequestBody DishForm dishForm) {
-            Dish dish = new Dish();
-            dish.setId(dishForm.getId());
-            dish.setName(dishForm.getName());
-            dish.setCategories(dishForm.getCategories());
-            dish.setPrice(dishForm.getPrice());
-            dish.setMerchant(dishForm.getMerchant());
-            dish.setDescription(dishForm.getDescription());
+        Dish dish = new Dish();
+        dish.setId(dishForm.getId());
+        dish.setName(dishForm.getName());
+        dish.setCategories(dishForm.getCategories());
+        dish.setPrice(dishForm.getPrice());
+        dish.setMerchant(dishForm.getMerchant());
+        dish.setDescription(dishForm.getDescription());
 //            dish.setImage(fileName);
-            return new ResponseEntity<>(dishService.save(dish), HttpStatus.CREATED);
+        return new ResponseEntity<>(dishService.save(dish), HttpStatus.CREATED);
     }
-  
+
     @GetMapping("/{id}/get-dishes-dto")
-    public ResponseEntity<?> findAllOrderByDish(@PathVariable Long id){
+    public ResponseEntity<?> findAllOrderByDish(@PathVariable Long id) {
         Iterable<DishDto> dishDTOs = merchantService.getAllDishDTO(id);
         return new ResponseEntity<>(dishDTOs, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/owners/{ownerId}/orders")
+    public ResponseEntity<?> getAllOrderByMerchantId(@PathVariable Long ownerId) {
+        List<OrderDto> orderDtos = orderService.findAllOrderDtoByOwnerId(ownerId);
+        return new ResponseEntity<>(orderDtos, HttpStatus.OK);
     }
 }
