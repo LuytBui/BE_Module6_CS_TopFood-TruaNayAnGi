@@ -17,7 +17,7 @@ public interface IMerchantRepository extends PagingAndSortingRepository<Merchant
 
     Optional<Merchant> findFirstByUser_Id(Long userId);
 
-    @Query(value = "select u.id, u.full_name, u.phone, u.address, u.email, count(o.id) as orderQuantity" +
+    @Query(value = "select u.id, u.full_name, u.phone, u.address, u.email, count(distinct o.id) as orderQuantity" +
             " from merchants join dishes d on merchants.id = d.merchant_id" +
             " join order_detail od on d.id = od.dish_id join orders o on od.order_id = o.id" +
             " join users u on o.user_id = u.id where merchant_id = :merchantId group by u.id", nativeQuery = true)
