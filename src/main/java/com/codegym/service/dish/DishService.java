@@ -66,7 +66,7 @@ public class DishService implements IDishService {
     public Iterable<Dish> viewDishByMerchant(Merchant merchant) {
         return dishRepository.findDishByMerchant(merchant);
     }
-  
+
     @Override
     public Iterable<Dish> findAllByMerchant_Id(Long id) {
         return dishRepository.findAllByMerchant_Id(id);
