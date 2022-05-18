@@ -2,6 +2,7 @@ package com.codegym.service.merchant;
 
 import com.codegym.model.dto.customer.ICustomerDto;
 import com.codegym.model.dto.dish.DishDto;
+import com.codegym.model.dto.order.OrderByQueryDto;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.dish.Dish;
@@ -79,5 +80,10 @@ public class MerchantService implements IMerchantService {
     @Override
     public Iterable<ICustomerDto> getAllCustomerDto(Long id) {
         return merchantRepository.findAllByCustomerDTOByMerchantId(id);
+    }
+
+    @Override
+    public Iterable<OrderByQueryDto> finAllMerchantOrderByCustomerId(Long merchantId, Long userId) {
+        return merchantRepository.finAllMerchantOrderByCustomerId(merchantId, userId);
     }
 }
