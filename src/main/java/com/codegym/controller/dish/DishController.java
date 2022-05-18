@@ -132,4 +132,10 @@ public class DishController {
         Iterable<Dish> dishes = dishService.findAllByMerchant(merchant);
         return new ResponseEntity<>(dishes, HttpStatus.OK);
     }
+
+    @GetMapping("/{dishId}/top-{limit}-same-category")
+    public ResponseEntity<?> findDishesWithSameCategoryWith(@PathVariable Long dishId, @PathVariable int limit){
+        Iterable<Dish> dishes =  dishService.findDishesWithSameCategoryWith(dishId, limit);
+        return new ResponseEntity<>(dishes, HttpStatus.OK);
+    }
 }

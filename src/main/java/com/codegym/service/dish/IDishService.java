@@ -23,4 +23,6 @@ public interface IDishService extends IGeneralService<Dish> {
     Iterable<Dish> viewDishByMerchant(Merchant merchant);
 
     Iterable<Dish> findAllByMerchant_Id(Long id);
+
+    Iterable<Dish> findDishesWithSameCategoryWith(Long dishId, int limit);
 }
