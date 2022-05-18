@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IOrderDetailRepository extends JpaRepository<OrderDetail, Long> {
     Iterable<OrderDetail> findAllByOrder(Order order);
+    Iterable<OrderDetail> findAllByDishId(Long id);
 }

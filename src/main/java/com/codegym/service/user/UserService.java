@@ -1,5 +1,6 @@
 package com.codegym.service.user;
 
+import com.codegym.model.entity.Order;
 import com.codegym.model.entity.auth.UserPrincipal;
 import com.codegym.model.entity.user.User;
 import com.codegym.repository.IUserRepository;
@@ -52,4 +53,6 @@ public class UserService implements IUserService{
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+
 }
