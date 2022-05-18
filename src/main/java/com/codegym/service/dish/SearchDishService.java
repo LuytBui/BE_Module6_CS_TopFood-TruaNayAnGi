@@ -19,11 +19,11 @@ public class SearchDishService {
     }
 
     public Iterable<Dish> searchByForm(SearchForm searchForm) {
-        if (searchForm.getQ().isEmpty()){
-            return searchByCategoriesOnly(searchForm.getCategories(), searchForm.getLimit());
-        }
         if (searchForm.getCategories().size() == 0) {
             return searchByNameOnly(searchForm.getQ(), searchForm.getLimit());
+        }
+        if (searchForm.getQ().isEmpty()){
+            return searchByCategoriesOnly(searchForm.getCategories(), searchForm.getLimit());
         }
         return searchByNameAndCategories(searchForm.getQ(), searchForm.getCategories(), searchForm.getLimit());
     }
@@ -38,7 +38,8 @@ public class SearchDishService {
 
     public Iterable<Dish> searchByCategoriesOnly(List<Category> categories, int limit){
         String categoryIdList = generateCategoryIdListString(categories);
-        return dishRepository.findDishesByCategoryIdList(categoryIdList, limit);
+        Iterable<Dish> result = dishRepository.findDishesByCategoryIdList(categoryIdList, limit);
+        return result;
     }
 
     public Iterable<Dish> searchByNameAndCategories(String name, List<Category> categories, int limit) {
