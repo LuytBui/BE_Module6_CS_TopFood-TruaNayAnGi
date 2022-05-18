@@ -80,7 +80,7 @@ public class OrderService implements IOrderService {
     @Override
     public List<OrderDto> findAllOrderDtoByUserId(Long userId) {
 
-        Iterable<Order> orders =  orderRepository.findAllByUser_Id(userId);
+        Iterable<Order> orders =  orderRepository.findAllByUser_IdOrderByCreateDateDesc(userId);
         List<OrderDto> orderDtos = new ArrayList<>();
 
         for (Order order : orders) {
@@ -93,7 +93,7 @@ public class OrderService implements IOrderService {
   
     @Override
     public Iterable<Order> findAllByUserId(Long id) {
-        return orderRepository.findAllByUser_Id(id);
+        return orderRepository.findAllByUser_IdOrderByCreateDateDesc(id);
     }
 
 }
