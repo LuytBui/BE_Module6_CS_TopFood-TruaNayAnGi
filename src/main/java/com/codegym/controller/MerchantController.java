@@ -115,7 +115,7 @@ public class MerchantController {
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
-        return  new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
+        return new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
     }
 
     @PostMapping("/dish/create")
@@ -129,5 +129,35 @@ public class MerchantController {
             dish.setDescription(dishForm.getDescription());
 //            dish.setImage(fileName);
             return new ResponseEntity<>(dishService.save(dish), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/dish/{dishId}")
+    public ResponseEntity<?> deleteMerchantDishById(@PathVariable Long dishId) {
+        Optional<Dish> dishOptional = dishService.findById(dishId);
+        if (!dishOptional.isPresent()) {
+            ErrorMessage errorMessage = new ErrorMessage("Món ăn này không tồn tại");
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        } else {
+            dishService.deleteById(dishId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
+    @PutMapping("/dish/{id}")
+    public ResponseEntity<?> updateMerchantDishById(@PathVariable Long id, @RequestBody DishForm dishForm) {
+        Optional<Dish> dishOptional = dishService.findById(id);
+        if (!dishOptional.isPresent()) {
+            ErrorMessage errorMessage = new ErrorMessage("Món ăn này không tồn tại");
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        } else {
+            Dish oldDish = dishOptional.get();
+            oldDish.setId(id);
+            oldDish.setName(dishForm.getName());
+            oldDish.setPrice(dishForm.getPrice());
+            oldDish.setCategories(dishForm.getCategories());
+            oldDish.setMerchant(dishForm.getMerchant());
+            oldDish.setDescription(dishForm.getDescription());
+            return new ResponseEntity<>(dishService.save(oldDish), HttpStatus.OK);
+        }
     }
 }
