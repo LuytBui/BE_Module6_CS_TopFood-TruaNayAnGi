@@ -15,7 +15,7 @@ public interface IOrderRepository extends JpaRepository<Order, Long> {
 
     Iterable<Order> findAllByUser_IdOrderByCreateDateDesc(Long userId);
 
-    @Query(value = "select orders.id, u.full_name,d.name, (orders.total_fee - orders.service_fee - orders.shipping_fee) as orderPrice ,u.address,orders.create_date" +
+    @Query(value = "select orders.id, u.full_name,d.name, (orders.total_fee - orders.service_fee - orders.shipping_fee) as orderPrice ,u.address,orders.create_date,orders.status" +
             " from orders" +
             " join order_detail od on orders.id = od.order_id" +
             " join dishes d on d.id = od.dish_id" +
