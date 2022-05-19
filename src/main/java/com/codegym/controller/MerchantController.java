@@ -22,6 +22,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -156,6 +160,18 @@ public class MerchantController {
         return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
     }
 
+
+    @GetMapping ("/{id}/orders")
+    public ResponseEntity<?> finAllOrderByMerchantIdInPeriod (@PathVariable Long id, @RequestParam (name = "startTime") Optional<String> startTime, @RequestParam (name = "endTime") Optional<String> endTime) throws ParseException {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate start = LocalDate.parse(startTime.get(), dtf);
+        LocalDate end = LocalDate.parse(endTime.get(), dtf);
+        Iterable<OrderByQueryDto> orderByQueryDTOs = merchantService.finAllOrderByMerchantIdInPeriod(id, start, end);
+        return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
+    }
+
+}
+
     @GetMapping("/owners/{ownerId}/orders")
     public ResponseEntity<?> getAllOrderByMerchantId(@PathVariable Long ownerId) {
         Iterable<OrderDtoByOwner> orderDtos = orderService.findAllOrderDtoByOwnerId(ownerId);
@@ -181,3 +197,4 @@ public class MerchantController {
         }
     }
 }
+
