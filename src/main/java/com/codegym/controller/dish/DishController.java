@@ -1,7 +1,9 @@
 package com.codegym.controller.dish;
+import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.model.entity.dish.DishForm;
 import com.codegym.service.dish.IDishService;
+import com.codegym.service.merchant.IMerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -114,6 +116,26 @@ public class DishController {
     public ResponseEntity<?> getMostPurchasedDishes(@PathVariable Long top){
         if (top == null) top = 8L;
         Iterable<Dish> dishes = dishService.findMostPurchased(top.intValue());
+        return new ResponseEntity<>(dishes, HttpStatus.OK);
+    }
+
+    @Autowired
+    IMerchantService merchantService;
+    @GetMapping("/merchants/{merchantId}")
+    public ResponseEntity<?> getMerchantDishesByMerchantId(@PathVariable Long merchantId) {
+        Optional<Merchant> findMerchant = merchantService.findById(merchantId);
+        if (!findMerchant.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Merchant merchant = findMerchant.get();
+
+        Iterable<Dish> dishes = dishService.findAllByMerchant(merchant);
+        return new ResponseEntity<>(dishes, HttpStatus.OK);
+    }
+
+    @GetMapping("/{dishId}/top-{limit}-same-category")
+    public ResponseEntity<?> findDishesWithSameCategoryWith(@PathVariable Long dishId, @PathVariable int limit){
+        Iterable<Dish> dishes =  dishService.findDishesWithSameCategoryWith(dishId, limit);
         return new ResponseEntity<>(dishes, HttpStatus.OK);
     }
 }
