@@ -83,34 +83,7 @@ public class DishController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateDish(@PathVariable Long id, @ModelAttribute DishForm dishForm) {
-        Optional<Dish> dishOptional = dishService.findById(id);
-        MultipartFile img = dishForm.getImage();
-        if (dishOptional.isPresent()) {
-            Dish oldDish = dishOptional.get();
-            if (img != null && img.getSize() != 0) {
-                String fileName = img.getOriginalFilename();
-                long currentTime = System.currentTimeMillis();
-                fileName = currentTime + fileName;
-                oldDish.setImage(fileName);
-                try {
-                    FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            oldDish.setId(dishForm.getId());
-            oldDish.setName(dishForm.getName());
-            oldDish.setPrice(dishForm.getPrice());
-            oldDish.setCategories(dishForm.getCategories());
-            oldDish.setMerchant(dishForm.getMerchant());
-            oldDish.setDescription(dishForm.getDescription());
-            return new ResponseEntity<>(dishService.save(oldDish), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+
 
     @GetMapping("/most-purchased/{top}")
     public ResponseEntity<?> getMostPurchasedDishes(@PathVariable Long top){

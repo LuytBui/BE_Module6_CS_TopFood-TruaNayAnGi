@@ -25,4 +25,6 @@ public class DishForm {
     private String description;
 
     private MultipartFile image;
+
+    private boolean ceased;
 }

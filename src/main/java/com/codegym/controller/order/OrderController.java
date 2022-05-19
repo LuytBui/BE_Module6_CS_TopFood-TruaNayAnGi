@@ -51,15 +51,36 @@ public class OrderController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @PostMapping("/cancels/{orderId}")
+    @PostMapping("/{orderId}/cancels")
     public ResponseEntity<?> userCancelOrderById(@PathVariable Long orderId) {
         Optional<Order> findOrderById = orderService.findById(orderId);
         if (!findOrderById.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Order orders = findOrderById.get();
-        orders.setStatus(-1);
-        orderService.save(orders);
+        Order order = findOrderById.get();
+        if (order.getStatus() != 0) {
+            ErrorMessage errorMessage = new ErrorMessage("Không thể thực hiện thao tác");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        order.setStatus(-1);
+        orderService.save(order);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping("/{orderId}/accept")
+    public ResponseEntity<?> merchantAcceptOrder(@PathVariable Long orderId) {
+        Optional<Order> findOrder = orderService.findById(orderId);
+        if (!findOrder.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Order order = findOrder.get();
+        if (order.getStatus() != 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        order.setStatus(1);
+        order = orderService.save(order);
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 }
