@@ -3,13 +3,17 @@ package com.codegym.controller;
 import com.codegym.model.dto.customer.ICustomerDto;
 import com.codegym.model.dto.dish.DishDto;
 import com.codegym.model.dto.order.OrderByQueryDto;
+import com.codegym.model.dto.order.OrderDto;
+import com.codegym.model.dto.order.OrderDtoByOwner;
 import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.model.entity.dish.DishForm;
+import com.codegym.model.entity.dish.category.CategoryDTO;
 import com.codegym.model.entity.user.User;
 import com.codegym.service.dish.IDishService;
 import com.codegym.service.merchant.IMerchantService;
+import com.codegym.service.order.IOrderService;
 import com.codegym.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,6 +36,9 @@ public class MerchantController {
 
     @Autowired
     IUserService userService;
+
+    @Autowired
+    IOrderService orderService;
 
     @GetMapping
     public ResponseEntity<Iterable<Merchant>> findAllMerchant() {
@@ -147,6 +155,13 @@ public class MerchantController {
         Iterable<OrderByQueryDto> orderByQueryDTOs = merchantService.finAllMerchantOrderByCustomerId(merchantId, userId);
         return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
     }
+
+    @GetMapping("/owners/{ownerId}/orders")
+    public ResponseEntity<?> getAllOrderByMerchantId(@PathVariable Long ownerId) {
+        Iterable<OrderDtoByOwner> orderDtos = orderService.findAllOrderDtoByOwnerId(ownerId);
+        return new ResponseEntity<>(orderDtos, HttpStatus.OK);
+    }
+
 
     @PutMapping("/dish/{id}")
     public ResponseEntity<?> updateMerchantDishById(@PathVariable Long id, @RequestBody DishForm dishForm) {
