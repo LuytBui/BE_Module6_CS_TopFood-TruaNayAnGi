@@ -44,6 +44,4 @@ public class Dish {
     @Column(columnDefinition = "varchar(1000) default 'dish-default.jpg'")
     private String image;
 
-    @Column(columnDefinition = "")
-    private boolean ceased = false;
 }

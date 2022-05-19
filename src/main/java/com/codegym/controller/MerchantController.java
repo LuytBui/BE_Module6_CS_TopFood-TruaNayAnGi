@@ -213,20 +213,6 @@ public class MerchantController {
         }
     }
 
-    @PostMapping("/{id}/accept")
-    public ResponseEntity<?> acceptOrderByMerchant(@PathVariable Long id) {
-        Optional<Order> findOrder = orderService.findById(id);
-        if (!findOrder.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Order order = findOrder.get();
-        if (order.getStatus() != 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        order.setStatus(1);
-        order = orderService.save(order);
-        return new ResponseEntity<>(order, HttpStatus.OK);
-    }
 
     @GetMapping("order/{orderId}")
     public ResponseEntity<?> findOrderByOrderId(@PathVariable Long orderId) {
