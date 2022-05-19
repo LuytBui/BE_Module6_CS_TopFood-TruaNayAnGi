@@ -166,6 +166,7 @@ public class MerchantController {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate start = LocalDate.parse(startTime.get(), dtf);
         LocalDate end = LocalDate.parse(endTime.get(), dtf);
+        end = end.plusDays(1);
         Iterable<OrderByQueryDto> orderByQueryDTOs = merchantService.finAllOrderByMerchantIdInPeriod(id, start, end);
         return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
     }
