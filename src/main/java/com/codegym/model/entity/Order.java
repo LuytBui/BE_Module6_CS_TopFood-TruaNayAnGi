@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="orders")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,5 +43,7 @@ public class Order {
     @Column(columnDefinition = "VARCHAR(1000)")
     private String shippingNote;
 
+    @Column(columnDefinition = "TINYINT default 0")
+    private int status;
 
 }

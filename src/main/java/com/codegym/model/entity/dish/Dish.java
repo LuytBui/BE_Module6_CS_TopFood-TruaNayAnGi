@@ -34,6 +34,7 @@ public class Dish {
     @ManyToOne
     private Merchant merchant;
 
+    @Column (columnDefinition = "INT default 0")
     private Long sold;
 
     @Column(columnDefinition = "varchar(1000)")
