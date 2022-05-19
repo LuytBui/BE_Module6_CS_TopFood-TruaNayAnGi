@@ -2,7 +2,9 @@ package com.codegym.service.order;
 
 import com.codegym.model.dto.cart.CartDetailDto;
 import com.codegym.model.dto.cart.CartDto;
+import com.codegym.model.dto.order.OrderByQueryDto;
 import com.codegym.model.dto.order.OrderDto;
+import com.codegym.model.dto.order.OrderDtoByOwner;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.OrderDetail;
@@ -96,15 +98,20 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<OrderDto> findAllOrderDtoByOwnerId(Long ownerId) {
-        Iterable<Order> orders = orderRepository.findOrderByOwnerIdOrderByCreateDateDesc(ownerId);
-        List<OrderDto> orderDtos = new ArrayList<>();
-        for (Order order : orders) {
-            OrderDto orderDto = getOrderDto(order.getId());
-            orderDtos.add(orderDto);
-        }
-        return orderDtos;
+    public Iterable<OrderDtoByOwner> findAllOrderDtoByOwnerId(Long ownerId) {
+        return orderRepository.findOrderByOwnerIdOrderByCreateDateDesc(ownerId);
     }
+
+//    @Override
+//    public List<OrderDto> findAllOrderDtoByOwnerId(Long ownerId) {
+//        Iterable<Order> orders = orderRepository.findOrderByOwnerIdOrderByCreateDateDesc(ownerId);
+//        List<OrderDto> orderDtos = new ArrayList<>();
+//        for (Order order : orders) {
+//            OrderDto orderDto = getOrderDto(order.getId());
+//            orderDtos.add(orderDto);
+//        }
+//        return orderDtos;
+//    }
 
 
 }

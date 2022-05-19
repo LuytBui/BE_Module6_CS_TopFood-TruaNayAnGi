@@ -2,7 +2,9 @@ package com.codegym.controller;
 
 import com.codegym.model.dto.customer.ICustomerDto;
 import com.codegym.model.dto.dish.DishDto;
+import com.codegym.model.dto.order.OrderByQueryDto;
 import com.codegym.model.dto.order.OrderDto;
+import com.codegym.model.dto.order.OrderDtoByOwner;
 import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
@@ -140,18 +142,42 @@ public class MerchantController {
     public ResponseEntity<?> findAllOrderByDish(@PathVariable Long id) {
         Iterable<DishDto> dishDTOs = merchantService.getAllDishDTO(id);
         return new ResponseEntity<>(dishDTOs, HttpStatus.OK);
-
     }
 
-    @GetMapping ("/{id}/get-users-dto")
-    public ResponseEntity<?> findAllOrderByCustomer (@PathVariable Long id){
+    @GetMapping("/{id}/get-users-dto")
+    public ResponseEntity<?> findAllOrderByCustomer(@PathVariable Long id) {
         Iterable<ICustomerDto> customerDTOs = merchantService.getAllCustomerDto(id);
         return new ResponseEntity<>(customerDTOs, HttpStatus.OK);
     }
 
+    @GetMapping("/{merchantId}/users/{userId}/orders")
+    public ResponseEntity<?> finAllMerchantOrderByCustomerId(@PathVariable Long merchantId, @PathVariable Long userId) {
+        Iterable<OrderByQueryDto> orderByQueryDTOs = merchantService.finAllMerchantOrderByCustomerId(merchantId, userId);
+        return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
+    }
+
     @GetMapping("/owners/{ownerId}/orders")
     public ResponseEntity<?> getAllOrderByMerchantId(@PathVariable Long ownerId) {
-        List<OrderDto> orderDtos = orderService.findAllOrderDtoByOwnerId(ownerId);
+        Iterable<OrderDtoByOwner> orderDtos = orderService.findAllOrderDtoByOwnerId(ownerId);
         return new ResponseEntity<>(orderDtos, HttpStatus.OK);
+    }
+
+
+    @PutMapping("/dish/{id}")
+    public ResponseEntity<?> updateMerchantDishById(@PathVariable Long id, @RequestBody DishForm dishForm) {
+        Optional<Dish> dishOptional = dishService.findById(id);
+        if (!dishOptional.isPresent()) {
+            ErrorMessage errorMessage = new ErrorMessage("Món ăn này không tồn tại");
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        } else {
+            Dish oldDish = dishOptional.get();
+            oldDish.setId(id);
+            oldDish.setName(dishForm.getName());
+            oldDish.setPrice(dishForm.getPrice());
+            oldDish.setCategories(dishForm.getCategories());
+            oldDish.setMerchant(dishForm.getMerchant());
+            oldDish.setDescription(dishForm.getDescription());
+            return new ResponseEntity<>(dishService.save(oldDish), HttpStatus.OK);
+        }
     }
 }
