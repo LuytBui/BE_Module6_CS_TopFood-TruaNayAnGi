@@ -23,7 +23,7 @@ public class DeliveryInfoController {
 
 
     @GetMapping("/{userId}/default-delivery-info")
-    public ResponseEntity<?> findDefaultDeliveryInfo(@PathVariable Long userId){
+    public ResponseEntity<?> findDefaultDeliveryInfo(@PathVariable Long userId) {
         Optional<User> findUser = userService.findById(userId);
         if (!findUser.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -32,7 +32,7 @@ public class DeliveryInfoController {
         User user = findUser.get();
         Optional<DeliveryInfo> findDefaultDeliveryInfo = deliveryInfoService.findDefaultDeliveryInfo(user);
         DeliveryInfo deliveryInfo = null;
-        if (findDefaultDeliveryInfo.isPresent()){
+        if (findDefaultDeliveryInfo.isPresent()) {
             deliveryInfo = findDefaultDeliveryInfo.get();
         }
 
@@ -40,7 +40,7 @@ public class DeliveryInfoController {
     }
 
     @GetMapping("/{userId}/other-delivery-infos")
-    public ResponseEntity<?> findOtherDeliveryInfos(@PathVariable Long userId){
+    public ResponseEntity<?> findOtherDeliveryInfos(@PathVariable Long userId) {
         Optional<User> findUser = userService.findById(userId);
         if (!findUser.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -49,6 +49,20 @@ public class DeliveryInfoController {
         User user = findUser.get();
         Iterable<DeliveryInfo> deliveryInfos = deliveryInfoService.findOtherDeliveryInfos(user);
         return new ResponseEntity<>(deliveryInfos, HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}/{deliveryInfoId}/make-default")
+    public ResponseEntity<?> setDeliveryInfoToSelected(@PathVariable Long userId, @PathVariable Long deliveryInfoId) {
+        Optional<User> findUser = userService.findById(userId);
+        if (!findUser.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Optional<DeliveryInfo> findDeliveryInfo = deliveryInfoService.findById(deliveryInfoId);
+        if (!findDeliveryInfo.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+       deliveryInfoService.setDeliveryInfoToSelected(userId, deliveryInfoId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -1,5 +1,8 @@
 package com.codegym.model.dto.order;
 
+import com.codegym.model.entity.dish.Dish;
+import com.codegym.model.entity.user.User;
+
 import java.util.Date;
 
 public interface OrderByQueryDto {
@@ -11,5 +14,4 @@ public interface OrderByQueryDto {
     double getShipping_Fee();
     String getShipping_Note();
     double getTotal_Fee();
-
 }

@@ -11,4 +11,6 @@ public interface IDeliveryInfoService extends IGeneralService<DeliveryInfo> {
     Optional<DeliveryInfo> findDefaultDeliveryInfo(User user);
 
     Iterable<DeliveryInfo> findOtherDeliveryInfos(User user);
+
+    boolean setDeliveryInfoToSelected(Long userId, Long deliveryInfoId);
 }

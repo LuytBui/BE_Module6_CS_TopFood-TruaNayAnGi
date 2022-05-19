@@ -2,7 +2,9 @@ package com.codegym.service.order;
 
 import com.codegym.model.dto.cart.CartDetailDto;
 import com.codegym.model.dto.cart.CartDto;
+import com.codegym.model.dto.order.OrderByQueryDto;
 import com.codegym.model.dto.order.OrderDto;
+import com.codegym.model.dto.order.OrderDtoByOwner;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.OrderDetail;
@@ -47,11 +49,10 @@ public class OrderService implements IOrderService {
     }
 
 
-
     @Override
     public OrderDto getOrderDto(Long orderId) {
         Optional<Order> findOrder = findById(orderId);
-        if (!findOrder.isPresent()){
+        if (!findOrder.isPresent()) {
             return null;
         }
 
@@ -59,13 +60,14 @@ public class OrderService implements IOrderService {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(orderId);
         orderDto.setDeliveryInfo(order.getDeliveryInfo());
+        orderDto.setStatus(order.getStatus());
 
         CartDto cartDto = new CartDto();
         Iterable<OrderDetail> orderDetails = orderDetailService.findAllByOrder(order);
         List<OrderDetail> orderDetailList =
                 StreamSupport.stream(orderDetails.spliterator(), false)
                         .collect(Collectors.toList());
-        for (OrderDetail orderDetail: orderDetailList) {
+        for (OrderDetail orderDetail : orderDetailList) {
             CartDetailDto cartDetailDto = new CartDetailDto(orderDetail.getDish(), orderDetail.getQuantity());
             cartDto.addCartDetailDto(cartDetailDto);
         }
@@ -80,7 +82,7 @@ public class OrderService implements IOrderService {
     @Override
     public List<OrderDto> findAllOrderDtoByUserId(Long userId) {
 
-        Iterable<Order> orders =  orderRepository.findAllByUser_IdOrderByCreateDateDesc(userId);
+        Iterable<Order> orders = orderRepository.findAllByUser_IdOrderByCreateDateDesc(userId);
         List<OrderDto> orderDtos = new ArrayList<>();
 
         for (Order order : orders) {
@@ -90,10 +92,27 @@ public class OrderService implements IOrderService {
 
         return orderDtos;
     }
-  
+
     @Override
     public Iterable<Order> findAllByUserId(Long id) {
         return orderRepository.findAllByUser_IdOrderByCreateDateDesc(id);
     }
+
+    @Override
+    public Iterable<OrderDtoByOwner> findAllOrderDtoByOwnerId(Long ownerId) {
+        return orderRepository.findOrderByOwnerIdOrderByCreateDateDesc(ownerId);
+    }
+
+//    @Override
+//    public List<OrderDto> findAllOrderDtoByOwnerId(Long ownerId) {
+//        Iterable<Order> orders = orderRepository.findOrderByOwnerIdOrderByCreateDateDesc(ownerId);
+//        List<OrderDto> orderDtos = new ArrayList<>();
+//        for (Order order : orders) {
+//            OrderDto orderDto = getOrderDto(order.getId());
+//            orderDtos.add(orderDto);
+//        }
+//        return orderDtos;
+//    }
+
 
 }
