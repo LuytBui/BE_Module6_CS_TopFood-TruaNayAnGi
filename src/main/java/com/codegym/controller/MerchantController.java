@@ -170,7 +170,6 @@ public class MerchantController {
         return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
     }
 
-}
 
     @GetMapping("/owners/{ownerId}/orders")
     public ResponseEntity<?> getAllOrderByMerchantId(@PathVariable Long ownerId) {
