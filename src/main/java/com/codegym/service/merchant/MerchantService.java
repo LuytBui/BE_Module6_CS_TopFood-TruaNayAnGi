@@ -1,10 +1,12 @@
 package com.codegym.service.merchant;
 
+import com.codegym.model.dto.customer.ICustomerDto;
 import com.codegym.model.dto.dish.DishDto;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.repository.IMerchantRepository;
+import com.codegym.repository.IOrderRepository;
 import com.codegym.service.dish.IDishService;
 import com.codegym.service.order_detail.IOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class MerchantService implements IMerchantService {
 
     @Autowired
     IOrderDetailService orderDetailService;
+
+    @Autowired
+    IOrderRepository orderRepository;
 
     @Override
     public Iterable<Merchant> findAll() {
@@ -59,7 +64,7 @@ public class MerchantService implements IMerchantService {
     public Iterable<DishDto> getAllDishDTO(Long id) {
         List<DishDto> dishDTOs = new ArrayList<>();
         Iterable<Dish> dishes = dishService.findAllByMerchant_Id(id);
-        for (Dish dish:dishes) {
+        for (Dish dish : dishes) {
             List<Order> orders = (List<Order>) orderDetailService.findAllOrderByDishId(dish.getId());
             int orderQuantity = orders.size();
             DishDto dishDto = new DishDto();
@@ -69,5 +74,10 @@ public class MerchantService implements IMerchantService {
             dishDTOs.add(dishDto);
         }
         return dishDTOs;
+    }
+
+    @Override
+    public Iterable<ICustomerDto> getAllCustomerDto(Long id) {
+        return merchantRepository.findAllByCustomerDTOByMerchantId(id);
     }
 }

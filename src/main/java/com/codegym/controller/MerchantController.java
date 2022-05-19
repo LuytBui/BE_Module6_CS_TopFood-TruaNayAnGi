@@ -1,5 +1,6 @@
 package com.codegym.controller;
 
+import com.codegym.model.dto.customer.ICustomerDto;
 import com.codegym.model.dto.dish.DishDto;
 import com.codegym.model.dto.order.OrderDto;
 import com.codegym.model.entity.ErrorMessage;
@@ -16,12 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -144,6 +141,12 @@ public class MerchantController {
         Iterable<DishDto> dishDTOs = merchantService.getAllDishDTO(id);
         return new ResponseEntity<>(dishDTOs, HttpStatus.OK);
 
+    }
+
+    @GetMapping ("/{id}/get-users-dto")
+    public ResponseEntity<?> findAllOrderByCustomer (@PathVariable Long id){
+        Iterable<ICustomerDto> customerDTOs = merchantService.getAllCustomerDto(id);
+        return new ResponseEntity<>(customerDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/owners/{ownerId}/orders")
