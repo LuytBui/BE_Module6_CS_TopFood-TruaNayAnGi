@@ -103,16 +103,4 @@ public class OrderService implements IOrderService {
         return orderRepository.findOrderByOwnerIdOrderByCreateDateDesc(ownerId);
     }
 
-//    @Override
-//    public List<OrderDto> findAllOrderDtoByOwnerId(Long ownerId) {
-//        Iterable<Order> orders = orderRepository.findOrderByOwnerIdOrderByCreateDateDesc(ownerId);
-//        List<OrderDto> orderDtos = new ArrayList<>();
-//        for (Order order : orders) {
-//            OrderDto orderDto = getOrderDto(order.getId());
-//            orderDtos.add(orderDto);
-//        }
-//        return orderDtos;
-//    }
-
-
 }
