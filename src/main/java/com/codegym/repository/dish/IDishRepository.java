@@ -49,4 +49,15 @@ public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> 
     Iterable<Dish> findDishesByNameAndCategoryIdList(
             @Param(value = "namePattern") String namePattern, @Param(value = "categoryIdList") String categoryIdList,
             @Param(value = "limit") int limit);
+
+    @Query(value = "select distinct dishes.* " +
+            "from dishes join dishes_categories d on dishes.id = d.dish_id " +
+            "where d.categories_id in ( " +
+            "    select dc.categories_id " +
+            "    from dishes_categories dc " +
+            "    where dc.dish_id = :dishId) " +
+            "and dishes.id != :dishId " +
+            "order by dishes.sold desc " +
+            "limit :limit", nativeQuery = true)
+    Iterable<Dish> findDishesWithSameCategoryWith(@Param(value = "dishId") Long dishId, @Param(value = "limit") int limit);
 }

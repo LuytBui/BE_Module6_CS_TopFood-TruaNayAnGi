@@ -71,4 +71,9 @@ public class DishService implements IDishService {
     public Iterable<Dish> findAllByMerchant_Id(Long id) {
         return dishRepository.findAllByMerchant_Id(id);
     }
+
+    @Override
+    public Iterable<Dish> findDishesWithSameCategoryWith(Long dishId, int limit) {
+        return dishRepository.findDishesWithSameCategoryWith(dishId, limit);
+    }
 }
