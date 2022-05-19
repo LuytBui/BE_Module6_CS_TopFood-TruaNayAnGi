@@ -165,4 +165,25 @@ public class MerchantController {
             return new ResponseEntity<>(dishService.save(oldDish), HttpStatus.OK);
         }
     }
+
+    @PutMapping("/dish/{id}/cease")
+    public ResponseEntity<?> ceaseByID(@PathVariable Long id, @ModelAttribute DishForm dishForm) {
+        Optional<Dish> dishOptional = dishService.findById(id);
+        if (!dishOptional.isPresent()) {
+            ErrorMessage errorMessage = new ErrorMessage("Món ăn này không tồn tại");
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        } else {
+            Dish oldDish = dishOptional.get();
+            oldDish.setId(id);
+            oldDish.setCeased(dishForm.isCeased());
+            return new ResponseEntity<>(dishService.save(oldDish), HttpStatus.OK);
+        }
+    }
+
+
 }
+// get dish from Id
+// change property isCeased
+// httml : create button
+// ts : toggleCease : true/false
+// html : if: true = hidden

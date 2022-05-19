@@ -34,8 +34,6 @@ public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> 
     @Query(value = "select * from dishes where name like :namePattern limit :limit", nativeQuery = true)
     Iterable<Dish> findAllDishesWithName(@Param(value = "namePattern") String namePattern, @Param(value = "limit") int limit);
 
-    Iterable<Dish> findDishByMerchant(Merchant merchant);
-
     Iterable<Dish> findAllByMerchant_Id(Long id);
 
     @Query(value = "select dishes.* from dishes join dishes_categories dc on dishes.id = dc.dish_id " +
@@ -49,4 +47,10 @@ public interface IDishRepository extends PagingAndSortingRepository<Dish, Long> 
     Iterable<Dish> findDishesByNameAndCategoryIdList(
             @Param(value = "namePattern") String namePattern, @Param(value = "categoryIdList") String categoryIdList,
             @Param(value = "limit") int limit);
+
+    Iterable<Dish> findAllByCeasedFalse();
+    // Customer-view
+
+    Iterable<Dish> findAllByMerchantAndCeasedTrue(Merchant merchant);
+    // Merchant-view
 }
