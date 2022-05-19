@@ -34,7 +34,7 @@ public class Dish {
     @ManyToOne
     private Merchant merchant;
 
-    @Column (columnDefinition = "INT default 0")
+    @Column (columnDefinition = "BIGINT default 0")
     private Long sold;
 
     @Column(columnDefinition = "varchar(1000)")
@@ -44,4 +44,6 @@ public class Dish {
     @Column(columnDefinition = "varchar(1000) default 'dish-default.jpg'")
     private String image;
 
+    @Column(columnDefinition = "")
+    private boolean ceased = false;
 }
