@@ -77,4 +77,12 @@ public class DeliveryInfoController {
         oldDeliveryInfo.setAddress(newDeliveryInfo.getAddress());
         return new ResponseEntity<>(deliveryInfoService.save(oldDeliveryInfo),HttpStatus.OK);
     }
+
+    @PostMapping("/delivery/create")
+    public ResponseEntity<?> createDeliveryInfo(@RequestBody DeliveryInfo deliveryInfo){
+        deliveryInfo.setName(deliveryInfo.getName());
+        deliveryInfo.setAddress(deliveryInfo.getAddress());
+        deliveryInfo.setPhone(deliveryInfo.getPhone());
+        return new ResponseEntity<>(deliveryInfoService.save(deliveryInfo),HttpStatus.OK);
+    }
 }
