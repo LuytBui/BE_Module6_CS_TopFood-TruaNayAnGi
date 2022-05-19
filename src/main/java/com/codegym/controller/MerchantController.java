@@ -3,13 +3,17 @@ package com.codegym.controller;
 import com.codegym.model.dto.customer.ICustomerDto;
 import com.codegym.model.dto.dish.DishDto;
 import com.codegym.model.dto.order.OrderByQueryDto;
+import com.codegym.model.dto.order.OrderDto;
+import com.codegym.model.dto.order.OrderDtoByOwner;
 import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.model.entity.dish.DishForm;
+import com.codegym.model.entity.dish.category.CategoryDTO;
 import com.codegym.model.entity.user.User;
 import com.codegym.service.dish.IDishService;
 import com.codegym.service.merchant.IMerchantService;
+import com.codegym.service.order.IOrderService;
 import com.codegym.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +22,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,6 +40,9 @@ public class MerchantController {
 
     @Autowired
     IUserService userService;
+
+    @Autowired
+    IOrderService orderService;
 
     @GetMapping
     public ResponseEntity<Iterable<Merchant>> findAllMerchant() {
@@ -102,7 +111,7 @@ public class MerchantController {
     }
 
     @GetMapping("/my-merchant")
-    public ResponseEntity<?> getCurrentUserMerchant(){
+    public ResponseEntity<?> getCurrentUserMerchant() {
         Principal principal = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userService.findByUsername(principal.getName()).get();
 
@@ -112,45 +121,45 @@ public class MerchantController {
         }
 
         Optional<Merchant> findMerchant = merchantService.findMerchantByUser_Id(currentUser.getId());
-        if (!findMerchant.isPresent()){
+        if (!findMerchant.isPresent()) {
             ErrorMessage errorMessage = new ErrorMessage("Tài khoản này không phải là chủ cửa hàng");
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
-        return  new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
+        return new ResponseEntity<>(findMerchant.get(), HttpStatus.OK);
     }
 
     @PostMapping("/dish/create")
     public ResponseEntity<?> saveDish(@RequestBody DishForm dishForm) {
-            Dish dish = new Dish();
-            dish.setId(dishForm.getId());
-            dish.setName(dishForm.getName());
-            dish.setCategories(dishForm.getCategories());
-            dish.setPrice(dishForm.getPrice());
-            dish.setMerchant(dishForm.getMerchant());
-            dish.setDescription(dishForm.getDescription());
+        Dish dish = new Dish();
+        dish.setId(dishForm.getId());
+        dish.setName(dishForm.getName());
+        dish.setCategories(dishForm.getCategories());
+        dish.setPrice(dishForm.getPrice());
+        dish.setMerchant(dishForm.getMerchant());
+        dish.setDescription(dishForm.getDescription());
 //            dish.setImage(fileName);
-            return new ResponseEntity<>(dishService.save(dish), HttpStatus.CREATED);
+        return new ResponseEntity<>(dishService.save(dish), HttpStatus.CREATED);
     }
-  
+
     @GetMapping("/{id}/get-dishes-dto")
-    public ResponseEntity<?> findAllOrderByDish(@PathVariable Long id){
+    public ResponseEntity<?> findAllOrderByDish(@PathVariable Long id) {
         Iterable<DishDto> dishDTOs = merchantService.getAllDishDTO(id);
         return new ResponseEntity<>(dishDTOs, HttpStatus.OK);
-
     }
 
-    @GetMapping ("/{id}/get-users-dto")
-    public ResponseEntity<?> findAllOrderByCustomer (@PathVariable Long id){
+    @GetMapping("/{id}/get-users-dto")
+    public ResponseEntity<?> findAllOrderByCustomer(@PathVariable Long id) {
         Iterable<ICustomerDto> customerDTOs = merchantService.getAllCustomerDto(id);
         return new ResponseEntity<>(customerDTOs, HttpStatus.OK);
     }
 
-    @GetMapping ("/{merchantId}/users/{userId}/orders")
-    public ResponseEntity<?> finAllMerchantOrderByCustomerId (@PathVariable Long merchantId,@PathVariable Long userId){
+    @GetMapping("/{merchantId}/users/{userId}/orders")
+    public ResponseEntity<?> finAllMerchantOrderByCustomerId(@PathVariable Long merchantId, @PathVariable Long userId) {
         Iterable<OrderByQueryDto> orderByQueryDTOs = merchantService.finAllMerchantOrderByCustomerId(merchantId, userId);
         return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
     }
+
 
     @GetMapping ("/{id}/orders")
     public ResponseEntity<?> finAllOrderByMerchantIdInPeriod (@PathVariable Long id, @RequestParam (name = "startTime") Optional<String> startTime, @RequestParam (name = "endTime") Optional<String> endTime) throws ParseException {
@@ -162,3 +171,30 @@ public class MerchantController {
     }
 
 }
+
+    @GetMapping("/owners/{ownerId}/orders")
+    public ResponseEntity<?> getAllOrderByMerchantId(@PathVariable Long ownerId) {
+        Iterable<OrderDtoByOwner> orderDtos = orderService.findAllOrderDtoByOwnerId(ownerId);
+        return new ResponseEntity<>(orderDtos, HttpStatus.OK);
+    }
+
+
+    @PutMapping("/dish/{id}")
+    public ResponseEntity<?> updateMerchantDishById(@PathVariable Long id, @RequestBody DishForm dishForm) {
+        Optional<Dish> dishOptional = dishService.findById(id);
+        if (!dishOptional.isPresent()) {
+            ErrorMessage errorMessage = new ErrorMessage("Món ăn này không tồn tại");
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        } else {
+            Dish oldDish = dishOptional.get();
+            oldDish.setId(id);
+            oldDish.setName(dishForm.getName());
+            oldDish.setPrice(dishForm.getPrice());
+            oldDish.setCategories(dishForm.getCategories());
+            oldDish.setMerchant(dishForm.getMerchant());
+            oldDish.setDescription(dishForm.getDescription());
+            return new ResponseEntity<>(dishService.save(oldDish), HttpStatus.OK);
+        }
+    }
+}
+

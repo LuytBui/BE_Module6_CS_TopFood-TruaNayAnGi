@@ -16,4 +16,5 @@ public class OrderDto {
     private DeliveryInfo deliveryInfo;
     private Merchant merchant;
     private Date createDate;
+    private int status;
 }

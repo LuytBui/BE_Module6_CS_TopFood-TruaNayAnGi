@@ -40,14 +40,26 @@ public class OrderController {
 
 
     @GetMapping("/dishes/{id}")
-    public ResponseEntity<?> getAllOrderByDish (@PathVariable Long id){
+    public ResponseEntity<?> getAllOrderByDish(@PathVariable Long id) {
         List<Order> orders = (List<Order>) orderDetailService.findAllOrderByDishId(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<?> getAllOrderByUserId (@PathVariable Long id){
+    public ResponseEntity<?> getAllOrderByUserId(@PathVariable Long id) {
         Iterable<Order> orders = orderService.findAllByUserId(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    @PostMapping("/cancels/{orderId}")
+    public ResponseEntity<?> userCancelOrderById(@PathVariable Long orderId) {
+        Optional<Order> findOrderById = orderService.findById(orderId);
+        if (!findOrderById.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Order orders = findOrderById.get();
+        orders.setStatus(-1);
+        orderService.save(orders);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

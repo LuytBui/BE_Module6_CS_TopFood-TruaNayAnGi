@@ -1,7 +1,14 @@
 package com.codegym.model.dto.order;
 
+
 import com.codegym.model.entity.user.User;
 import org.springframework.stereotype.Component;
+
+import com.codegym.model.entity.dish.Dish;
+import com.codegym.model.entity.user.User;
+
+import java.util.Date;
+
 
 import java.time.LocalDate;
 import java.util.Date;

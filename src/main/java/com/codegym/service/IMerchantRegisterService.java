@@ -12,5 +12,4 @@ public interface IMerchantRegisterService extends IGeneralService<MerchantRegist
 
     Iterable<MerchantRegisterRequest> findMerchantByReviewed(boolean reviewed);
 
-
 }

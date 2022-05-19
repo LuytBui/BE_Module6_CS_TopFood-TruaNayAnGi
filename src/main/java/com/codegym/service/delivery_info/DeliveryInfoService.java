@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class DeliveryInfoService implements IDeliveryInfoService{
+public class DeliveryInfoService implements IDeliveryInfoService {
     @Autowired
     IDeliveryInfoRepository deliveryInfoRepository;
 
@@ -42,4 +42,13 @@ public class DeliveryInfoService implements IDeliveryInfoService{
     public Iterable<DeliveryInfo> findOtherDeliveryInfos(User user) {
         return deliveryInfoRepository.findAllByUserAndSelectedIsFalse(user);
     }
+
+    @Override
+    public boolean setDeliveryInfoToSelected(Long userId, Long deliveryInfoId) {
+        deliveryInfoRepository.makeAllDeliveryInfoUnselectedByUser(userId);
+        int count = deliveryInfoRepository.setDeliveryInfoToSelected(deliveryInfoId);
+        return count > 1;
+    }
+
+
 }
