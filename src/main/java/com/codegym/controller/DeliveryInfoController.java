@@ -65,4 +65,24 @@ public class DeliveryInfoController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/{deliveryInfoId}")
+    public ResponseEntity<?> saveDeliveryInfo(@PathVariable Long deliveryInfoId, @RequestBody DeliveryInfo newDeliveryInfo){
+        Optional<DeliveryInfo> findDeliveryInfo = deliveryInfoService.findById(deliveryInfoId);
+        if (!findDeliveryInfo.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        DeliveryInfo oldDeliveryInfo = findDeliveryInfo.get();
+        oldDeliveryInfo.setName(newDeliveryInfo.getName());
+        oldDeliveryInfo.setPhone(newDeliveryInfo.getPhone());
+        oldDeliveryInfo.setAddress(newDeliveryInfo.getAddress());
+        return new ResponseEntity<>(deliveryInfoService.save(oldDeliveryInfo),HttpStatus.OK);
+    }
+
+    @PostMapping("/delivery/create")
+    public ResponseEntity<?> createDeliveryInfo(@RequestBody DeliveryInfo deliveryInfo){
+        deliveryInfo.setName(deliveryInfo.getName());
+        deliveryInfo.setAddress(deliveryInfo.getAddress());
+        deliveryInfo.setPhone(deliveryInfo.getPhone());
+        return new ResponseEntity<>(deliveryInfoService.save(deliveryInfo),HttpStatus.OK);
+    }
 }
