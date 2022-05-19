@@ -60,6 +60,7 @@ public class OrderService implements IOrderService {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(orderId);
         orderDto.setDeliveryInfo(order.getDeliveryInfo());
+        orderDto.setStatus(order.getStatus());
 
         CartDto cartDto = new CartDto();
         Iterable<OrderDetail> orderDetails = orderDetailService.findAllByOrder(order);
