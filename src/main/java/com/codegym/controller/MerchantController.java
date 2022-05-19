@@ -7,6 +7,7 @@ import com.codegym.model.dto.order.OrderDto;
 import com.codegym.model.dto.order.OrderDtoByOwner;
 import com.codegym.model.entity.ErrorMessage;
 import com.codegym.model.entity.Merchant;
+import com.codegym.model.entity.Order;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.model.entity.dish.DishForm;
 import com.codegym.model.entity.dish.category.CategoryDTO;
@@ -180,4 +181,25 @@ public class MerchantController {
             return new ResponseEntity<>(dishService.save(oldDish), HttpStatus.OK);
         }
     }
+
+    @PostMapping("/{id}/accept")
+    public ResponseEntity<?> acceptOrderByMerchant(@PathVariable Long id) {
+        Optional<Order> findOrder = orderService.findById(id);
+        if (!findOrder.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Order order = findOrder.get();
+        if (order.getStatus() != 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        order.setStatus(1);
+        order = orderService.save(order);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+    @GetMapping("order/{orderId}")
+    public ResponseEntity<?> findOrderByOrderId(@PathVariable Long orderId) {
+        OrderDto orderDto = orderService.getOrderDto(orderId);
+        return new ResponseEntity<>(orderDto, HttpStatus.OK);
+    }
+
 }

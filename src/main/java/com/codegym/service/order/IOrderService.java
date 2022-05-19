@@ -7,6 +7,7 @@ import com.codegym.model.entity.Order;
 import com.codegym.service.IGeneralService;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IOrderService extends IGeneralService<Order> {
 
@@ -17,4 +18,5 @@ public interface IOrderService extends IGeneralService<Order> {
     Iterable<Order> findAllByUserId(Long id);
 
     Iterable<OrderDtoByOwner> findAllOrderDtoByOwnerId(Long ownerId);
+
 }

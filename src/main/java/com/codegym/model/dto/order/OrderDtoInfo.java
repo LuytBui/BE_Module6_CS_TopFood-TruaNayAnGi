@@ -2,7 +2,7 @@ package com.codegym.model.dto.order;
 
 import java.util.Date;
 
-public interface OrderDtoByOwner {
+public interface OrderDtoInfo {
     Long getId();
 
     Date getCreate_Date();
@@ -18,4 +18,6 @@ public interface OrderDtoByOwner {
     String getPhone();
 
     int getStatus();
+
+
 }
