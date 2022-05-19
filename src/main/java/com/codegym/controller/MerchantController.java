@@ -10,24 +10,27 @@ import com.codegym.model.entity.Merchant;
 import com.codegym.model.entity.Order;
 import com.codegym.model.entity.dish.Dish;
 import com.codegym.model.entity.dish.DishForm;
-import com.codegym.model.entity.dish.category.CategoryDTO;
 import com.codegym.model.entity.user.User;
 import com.codegym.service.dish.IDishService;
 import com.codegym.service.merchant.IMerchantService;
 import com.codegym.service.order.IOrderService;
 import com.codegym.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -44,6 +47,9 @@ public class MerchantController {
 
     @Autowired
     IOrderService orderService;
+
+    @Value("${file-upload}")
+    private String uploadPath;
 
     @GetMapping
     public ResponseEntity<Iterable<Merchant>> findAllMerchant() {
@@ -171,7 +177,7 @@ public class MerchantController {
         Iterable<OrderByQueryDto> orderByQueryDTOs = merchantService.finAllOrderByMerchantIdInPeriod(id, start, end);
         return new ResponseEntity<>(orderByQueryDTOs, HttpStatus.OK);
     }
-  
+
     @GetMapping("/owners/{ownerId}/orders")
     public ResponseEntity<?> getAllOrderByMerchantId(@PathVariable Long ownerId) {
         Iterable<OrderDtoByOwner> orderDtos = orderService.findAllOrderDtoByOwnerId(ownerId);
@@ -179,19 +185,30 @@ public class MerchantController {
     }
 
     @PutMapping("/dish/{id}")
-    public ResponseEntity<?> updateMerchantDishById(@PathVariable Long id, @RequestBody DishForm dishForm) {
+    public ResponseEntity<?> updateMerchantDishById(@PathVariable Long id, @ModelAttribute DishForm dishForm) {
         Optional<Dish> dishOptional = dishService.findById(id);
         if (!dishOptional.isPresent()) {
             ErrorMessage errorMessage = new ErrorMessage("Món ăn này không tồn tại");
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
         } else {
             Dish oldDish = dishOptional.get();
-            oldDish.setId(id);
             oldDish.setName(dishForm.getName());
             oldDish.setPrice(dishForm.getPrice());
             oldDish.setCategories(dishForm.getCategories());
-            oldDish.setMerchant(dishForm.getMerchant());
             oldDish.setDescription(dishForm.getDescription());
+
+            MultipartFile img = dishForm.getImage();
+            if (img != null && img.getSize() != 0) {
+                String fileName = img.getOriginalFilename();
+                long currentTime = System.currentTimeMillis();
+                fileName = currentTime + "_" + fileName;
+                try {
+                    FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                oldDish.setImage(fileName);
+            }
             return new ResponseEntity<>(dishService.save(oldDish), HttpStatus.OK);
         }
     }
@@ -210,12 +227,36 @@ public class MerchantController {
         order = orderService.save(order);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
-  
+
     @GetMapping("order/{orderId}")
     public ResponseEntity<?> findOrderByOrderId(@PathVariable Long orderId) {
         OrderDto orderDto = orderService.getOrderDto(orderId);
         return new ResponseEntity<>(orderDto, HttpStatus.OK);
     }
 
-}
 
+    // test uploadfile create dish
+    @PostMapping("/dish/create1")
+    public ResponseEntity<?> saveDishImg(@ModelAttribute DishForm dishForm) {
+        MultipartFile img = dishForm.getImage();
+        Dish newDish = new Dish();
+        if (img != null && img.getSize() != 0) {
+            String fileName = img.getOriginalFilename();
+            long currentTime = System.currentTimeMillis();
+            fileName = currentTime + fileName;
+            newDish.setImage(fileName);
+            try {
+                FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        newDish.setName(dishForm.getName());
+        newDish.setPrice(dishForm.getPrice());
+        newDish.setCategories(dishForm.getCategories());
+        newDish.setMerchant(dishForm.getMerchant());
+        newDish.setDescription(dishForm.getDescription());
+        newDish.setSold(0L);
+        return new ResponseEntity<>(dishService.save(newDish), HttpStatus.OK);
+    }
+}
