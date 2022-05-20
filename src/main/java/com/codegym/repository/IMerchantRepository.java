@@ -34,6 +34,7 @@ public interface IMerchantRepository extends PagingAndSortingRepository<Merchant
             " join users u on o.user_id = u.id" +
             " join order_detail od on o.id = od.order_id" +
             " join dishes d on od.dish_id = d.id" +
-            " join merchants m on d.merchant_id = m.id where m.id = ?1 and o.create_date between ?2 AND ?3", nativeQuery = true)
+            " join merchants m on d.merchant_id = m.id where m.id = ?1 and o.create_date between ?2 AND ?3" +
+            " order by o.create_date desc", nativeQuery = true)
     Iterable<OrderByQueryDto> finAllOrderByMerchantIdInPeriod (Long id, LocalDate startTime, LocalDate endTime);
 }
