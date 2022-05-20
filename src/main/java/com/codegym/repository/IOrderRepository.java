@@ -24,7 +24,9 @@ public interface IOrderRepository extends JpaRepository<Order, Long> {
             " join dishes d on d.id = od.dish_id" +
             " join merchants m on d.merchant_id = m.id" +
             " join users u on m.user_id = u.id" +
-            " where u.id = :ownerId order by create_date desc ", nativeQuery = true)
+            " where u.id = :ownerId " +
+            "group by orders.id " +
+            "order by create_date desc ", nativeQuery = true)
     Iterable<OrderDtoByOwner> findOrderByOwnerIdOrderByCreateDateDesc(@Param(value = "ownerId") Long ownerId);
 
 }
